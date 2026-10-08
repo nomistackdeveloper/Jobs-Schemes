@@ -3,19 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nexus Hub | Project Gateway</title>
-    <!-- Google Fonts for sleek modern typography -->
+    <title>Project Hub</title>
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-dark: #070913;
+            --bg-dark: #0b0f19;
             --card-bg: rgba(255, 255, 255, 0.03);
             --card-border: rgba(255, 255, 255, 0.08);
             --primary-glow: #6366f1;
             --secondary-glow: #ec4899;
-            --accent-glow: #06b6d4;
             --text-main: #f8fafc;
             --text-muted: #94a3b8;
         }
@@ -25,7 +24,6 @@
             margin: 0;
             padding: 0;
             font-family: 'Plus Jakarta Sans', sans-serif;
-            user-select: none;
         }
 
         body {
@@ -39,237 +37,199 @@
             position: relative;
         }
 
-        /* Canvas Background for Dynamic Floating Particles */
-        #particle-canvas {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 0;
-            pointer-events: none;
-        }
-
         /* Ambient Animated Lighting Orbs */
         .orb {
             position: absolute;
             border-radius: 50%;
             filter: blur(100px);
-            opacity: 0.45;
+            opacity: 0.4;
             z-index: 0;
-            animation: pulse-glow 8s ease-in-out infinite alternate;
+            animation: float 8s ease-in-out infinite alternate;
         }
 
         .orb-1 {
-            width: 450px;
-            height: 450px;
+            width: 400px;
+            height: 400px;
             background: var(--primary-glow);
             top: -10%;
             left: -10%;
         }
 
         .orb-2 {
-            width: 400px;
-            height: 400px;
+            width: 380px;
+            height: 380px;
             background: var(--secondary-glow);
             bottom: -10%;
             right: -10%;
             animation-delay: -4s;
         }
 
-        @keyframes pulse-glow {
-            0% { transform: scale(1) translate(0, 0); opacity: 0.35; }
-            100% { transform: scale(1.25) translate(40px, 30px); opacity: 0.55; }
+        @keyframes float {
+            0% { transform: scale(1) translate(0, 0); }
+            100% { transform: scale(1.15) translate(30px, 20px); }
         }
 
-        /* Glassmorphism Container */
+        /* Main Glass Card */
         .portal-card {
             position: relative;
             z-index: 10;
             width: 90%;
-            max-width: 540px;
-            background: rgba(15, 23, 42, 0.65);
-            backdrop-filter: blur(24px) saturate(180%);
-            -webkit-backdrop-filter: blur(24px) saturate(180%);
+            max-width: 500px;
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
             border: 1px solid var(--card-border);
             border-radius: 28px;
-            padding: 45px 36px;
-            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6),
+            padding: 45px 35px;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5),
                         inset 0 1px 0 rgba(255, 255, 255, 0.1);
             text-align: center;
-            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
-        .portal-header {
-            margin-bottom: 28px;
+        .header {
+            margin-bottom: 35px;
         }
 
-        .badge-live {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
+        .badge {
+            display: inline-block;
             background: rgba(99, 102, 241, 0.12);
             border: 1px solid rgba(99, 102, 241, 0.3);
             color: #a5b4fc;
             padding: 6px 14px;
             border-radius: 30px;
-            font-size: 0.78rem;
+            font-size: 0.8rem;
             font-weight: 700;
             letter-spacing: 0.05em;
             text-transform: uppercase;
             margin-bottom: 16px;
         }
 
-        .dot-pulse {
-            width: 8px;
-            height: 8px;
-            background-color: #6366f1;
-            border-radius: 50%;
-            box-shadow: 0 0 10px #6366f1;
-            animation: blink 1.5s infinite;
-        }
-
-        @keyframes blink {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.4; transform: scale(0.85); }
-        }
-
         h1 {
             font-size: 2.2rem;
             font-weight: 800;
-            letter-spacing: -0.02em;
             background: linear-gradient(135deg, #ffffff 30%, #a5b4fc 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
         }
 
-        .subtitle {
+        p {
             color: var(--text-muted);
-            font-size: 0.92rem;
-            line-height: 1.5;
+            font-size: 0.95rem;
         }
 
-        /* Circular Ring Timer Display */
-        .timer-ring-wrapper {
-            position: relative;
-            width: 110px;
-            height: 110px;
-            margin: 25px auto;
-        }
-
-        .timer-ring-wrapper svg {
-            width: 100%;
-            height: 100%;
-            transform: rotate(-90deg);
-        }
-
-        .ring-bg {
-            fill: none;
-            stroke: rgba(255, 255, 255, 0.06);
-            stroke-width: 7;
-        }
-
-        .ring-progress {
-            fill: none;
-            stroke: url(#gradient);
-            stroke-width: 7;
-            stroke-linecap: round;
-            stroke-dasharray: 283;
-            stroke-dashoffset: 0;
-            transition: stroke-dashoffset 1s linear;
-        }
-
-        .timer-number {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 2rem;
-            font-weight: 800;
-            color: #ffffff;
-            text-shadow: 0 0 20px rgba(99, 102, 241, 0.5);
-        }
-
-        /* Target Selection Cards */
-        .options-grid {
+        /* Destination Cards */
+        .cards-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: 1fr;
             gap: 16px;
-            margin-bottom: 28px;
         }
 
-        .target-card {
+        .nav-card {
             background: var(--card-bg);
             border: 1px solid var(--card-border);
             border-radius: 20px;
-            padding: 22px 16px;
+            padding: 20px 24px;
             text-decoration: none;
             color: var(--text-main);
             display: flex;
-            flex-direction: column;
             align-items: center;
-            gap: 12px;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            overflow: hidden;
+            gap: 20px;
+            transition: all 0.3s ease;
         }
 
-        .target-card::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), transparent);
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .target-card:hover {
-            transform: translateY(-6px);
+        .nav-card:hover {
+            transform: translateY(-4px);
+            background: rgba(255, 255, 255, 0.07);
             border-color: rgba(99, 102, 241, 0.5);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3),
-                        0 0 20px rgba(99, 102, 241, 0.2);
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.3),
+                        0 0 20px rgba(99, 102, 241, 0.15);
         }
 
-        .target-card:hover::before {
-            opacity: 1;
-        }
-
-        .target-card.selected {
-            background: rgba(99, 102, 241, 0.15);
-            border-color: var(--primary-glow);
-            box-shadow: 0 0 25px rgba(99, 102, 241, 0.3);
-        }
-
-        .card-icon-box {
+        .icon-box {
             width: 52px;
             height: 52px;
             background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.08);
             border-radius: 14px;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 1.6rem;
-            border: 1px solid rgba(255, 255, 255, 0.08);
+            flex-shrink: 0;
             transition: transform 0.3s ease;
         }
 
-        .target-card:hover .card-icon-box {
+        .nav-card:hover .icon-box {
             transform: scale(1.1) rotate(5deg);
         }
 
-        .card-info {
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
+        .info-box {
+            text-align: left;
+            flex-grow: 1;
         }
 
-        .card-name {
-            font-size: 0.95rem;
+        .card-title {
+            display: block;
+            font-size: 1.1rem;
             font-weight: 700;
-            letter-spacing: -0.01em;
+            margin-bottom: 4px;
         }
 
         .card-path {
-            font
+            display: block;
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            font-family: monospace;
+        }
+
+        .arrow {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            transition: transform 0.3s ease, color 0.3s ease;
+        }
+
+        .nav-card:hover .arrow {
+            transform: translateX(5px);
+            color: #a5b4fc;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Ambient background glows -->
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+
+    <div class="portal-card">
+        <div class="header">
+            <span class="badge">Project Gateway</span>
+            <h1>Select Portal</h1>
+            <p>Choose which application you want to visit:</p>
+        </div>
+
+        <div class="cards-grid">
+            <!-- Link 1: Food Delivery -->
+            <a href="food%20dilervy/index.html" class="nav-card">
+                <div class="icon-box">🍕</div>
+                <div class="info-box">
+                    <span class="card-title">Food Delivery App</span>
+                    <span class="card-path">food dilervy/index.html</span>
+                </div>
+                <span class="arrow">→</span>
+            </a>
+
+            <!-- Link 2: New Page -->
+            <a href="new/index.html" class="nav-card">
+                <div class="icon-box">🚀</div>
+                <div class="info-box">
+                    <span class="card-title">New Page</span>
+                    <span class="card-path">new/index.html</span>
+                </div>
+                <span class="arrow">→</span>
+            </a>
+        </div>
+    </div>
+
+</body>
+</html>
