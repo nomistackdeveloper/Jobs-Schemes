@@ -3,9 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Main Hub | Redirecting...</title>
-    <!-- Meta refresh auto-redirect to food delivery page by default after 3 seconds -->
-    <meta http-equiv="refresh" content="3;url=new/index.html">
+    <title>Project Portal Hub</title>
     <style>
         * {
             box-sizing: border-box;
@@ -15,229 +13,306 @@
         }
 
         body {
-            background: linear-gradient(135deg, #1e1e2f, #2d2b42);
+            background: #0f172a;
             color: #ffffff;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
             padding: 20px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Particle background elements */
+        .bg-glow {
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(99, 102, 241, 0.35) 0%, rgba(0,0,0,0) 70%);
+            top: 20%;
+            left: 15%;
+            filter: blur(50px);
+            animation: float 6s ease-in-out infinite alternate;
+        }
+
+        .bg-glow-2 {
+            position: absolute;
+            width: 350px;
+            height: 350px;
+            background: radial-gradient(circle, rgba(236, 72, 153, 0.3) 0%, rgba(0,0,0,0) 70%);
+            bottom: 15%;
+            right: 15%;
+            filter: blur(50px);
+            animation: float 8s ease-in-out infinite alternate-reverse;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px) scale(1); }
+            100% { transform: translateY(-30px) scale(1.1); }
         }
 
         .container {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 16px;
-            padding: 40px;
-            max-width: 480px;
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.125);
+            border-radius: 24px;
+            padding: 40px 30px;
+            max-width: 520px;
             width: 100%;
             text-align: center;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+            z-index: 1;
+            transform: translateY(0);
+            transition: transform 0.3s ease;
         }
 
         h1 {
-            font-size: 1.8rem;
-            margin-bottom: 10px;
+            font-size: 2rem;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, #a5b4fc, #e879f9);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
-        p {
-            color: #b3b3b3;
+        .subtitle {
+            color: #94a3b8;
             font-size: 0.95rem;
+            margin-bottom: 30px;
+        }
+
+        /* Countdown circular bar */
+        .timer-container {
+            position: relative;
+            width: 90px;
+            height: 90px;
+            margin: 0 auto 25px;
+        }
+
+        .timer-svg {
+            transform: rotate(-90deg);
+            width: 100%;
+            height: 100%;
+        }
+
+        .timer-circle-bg {
+            fill: none;
+            stroke: rgba(255, 255, 255, 0.1);
+            stroke-width: 6;
+        }
+
+        .timer-circle-progress {
+            fill: none;
+            stroke: #6366f1;
+            stroke-width: 6;
+            stroke-dasharray: 251;
+            stroke-dashoffset: 0;
+            stroke-linecap: round;
+            transition: stroke-dashoffset 1s linear;
+        }
+
+        .timer-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #f8fafc;
+        }
+
+        /* Destination Card Selection */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
             margin-bottom: 25px;
         }
 
-        .links-container {
+        .card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 2px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 20px 15px;
+            cursor: pointer;
+            text-decoration: none;
+            color: #f8fafc;
             display: flex;
             flex-direction: column;
-            gap: 15px;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
         }
 
-        .btn {
-            display: block;
-            padding: 14px 20px;
-            border-radius: 8px;
-            text-decoration: none;
+        .card:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(99, 102, 241, 0.5);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .card.active {
+            border-color: #6366f1;
+            background: rgba(99, 102, 241, 0.15);
+        }
+
+        .card-icon {
+            font-size: 2rem;
+        }
+
+        .card-title {
+            font-size: 1rem;
             font-weight: 600;
-            transition: all 0.3s ease;
         }
 
-        .btn-primary {
-            background-color: #ff6b6b;
-            color: white;
+        .card-badge {
+            font-size: 0.7rem;
+            padding: 3px 8px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            color: #cbd5e1;
         }
 
-        .btn-primary:hover {
-            background-color: #ff5252;
-            transform: translateY(-2px);
-        }
-
-        .btn-secondary {
-            background-color: #4ecdc4;
-            color: #1e1e2f;
-        }
-
-        .btn-secondary:hover {
-            background-color: #3dbdb4;
-            transform: translateY(-2px);
-        }
-
-        .loader {
-            margin: 20px auto 0;
-            border: 3px solid rgba(255, 255, 255, 0.1);
-            border-radius: 50%;
-            border-top: 3px solid #ff6b6b;
-            width: 24px;
-            height: 24px;
-            animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-    </style>
-</head>
-<body>
-
-    <div class="container">
-        <h1>Welcome to the Project</h1>
-        <p>Redirecting you automatically... If nothing happens, please choose a destination below:</p>
-
-        <div class="links-container">
-            <a href="<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Main Hub | Redirecting...</title>
-    <!-- Meta refresh auto-redirect to food delivery page by default after 3 seconds -->
-    <meta http-equiv="refresh" content="3;url=food%20dilervy/index.html">
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
-        body {
-            background: linear-gradient(135deg, #1e1e2f, #2d2b42);
-            color: #ffffff;
+        /* Control Buttons */
+        .controls {
             display: flex;
             justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            padding: 20px;
+            gap: 12px;
         }
 
-        .container {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
+        .btn-action {
+            background: rgba(255, 255, 255, 0.08);
             border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 16px;
-            padding: 40px;
-            max-width: 480px;
-            width: 100%;
-            text-align: center;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-        }
-
-        h1 {
-            font-size: 1.8rem;
-            margin-bottom: 10px;
-        }
-
-        p {
-            color: #b3b3b3;
-            font-size: 0.95rem;
-            margin-bottom: 25px;
-        }
-
-        .links-container {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-
-        .btn {
-            display: block;
-            padding: 14px 20px;
-            border-radius: 8px;
-            text-decoration: none;
+            color: #cbd5e1;
+            padding: 10px 18px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 0.85rem;
             font-weight: 600;
-            transition: all 0.3s ease;
+            transition: all 0.2s ease;
         }
 
-        .btn-primary {
-            background-color: #ff6b6b;
-            color: white;
-        }
-
-        .btn-primary:hover {
-            background-color: #ff5252;
-            transform: translateY(-2px);
-        }
-
-        .btn-secondary {
-            background-color: #4ecdc4;
-            color: #1e1e2f;
-        }
-
-        .btn-secondary:hover {
-            background-color: #3dbdb4;
-            transform: translateY(-2px);
-        }
-
-        .loader {
-            margin: 20px auto 0;
-            border: 3px solid rgba(255, 255, 255, 0.1);
-            border-radius: 50%;
-            border-top: 3px solid #ff6b6b;
-            width: 24px;
-            height: 24px;
-            animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+        .btn-action:hover {
+            background: rgba(255, 255, 255, 0.18);
+            color: #ffffff;
         }
     </style>
 </head>
 <body>
 
+    <div class="bg-glow"></div>
+    <div class="bg-glow-2"></div>
+
     <div class="container">
-        <h1>Welcome to the Project</h1>
-        <p>Redirecting you automatically... If nothing happens, please choose a destination below:</p>
+        <h1>Project Portal</h1>
+        <p class="subtitle" id="status-text">Redirecting to default location...</p>
 
-        <div class="links-container">
-            <a href="new/index.html" class="btn btn-primary">Go to Food Delivery App</a>
-            <a href="new/index.html" class="btn btn-secondary">Go to New Page</a>
+        <!-- Dynamic Circular Countdown -->
+        <div class="timer-container">
+            <svg class="timer-svg" viewBox="0 0 90 90">
+                <circle class="timer-circle-bg" cx="45" cy="45" r="40"></circle>
+                <circle class="timer-circle-progress" id="progress-bar" cx="45" cy="45" r="40"></circle>
+            </svg>
+            <div class="timer-text" id="countdown">5</div>
         </div>
 
-        <div class="loader"></div>
+        <!-- Destination Options -->
+        <div class="cards-grid">
+            <a href="food%20dilervy/index.html" class="card active" id="card-food" onclick="selectDestination('food%20dilervy/index.html', this, event)">
+                <span class="card-icon">🍕</span>
+                <span class="card-title">Food Delivery</span>
+                <span class="card-badge">Default Target</span>
+            </a>
+
+            <a href="new/index.html" class="card" id="card-new" onclick="selectDestination('new/index.html', this, event)">
+                <span class="card-icon">🚀</span>
+                <span class="card-title">New Portal</span>
+                <span class="card-badge">Secondary Target</span>
+            </a>
+        </div>
+
+        <!-- Interactive Actions -->
+        <div class="controls">
+            <button class="btn-action" id="toggle-btn" onclick="toggleTimer()">Pause Auto-Redirect</button>
+            <button class="btn-action" onclick="redirectNow()">Go Now</button>
+        </div>
     </div>
 
     <script>
-        // JavaScript automatic fallback redirect (runs after 3 seconds)
-        setTimeout(function() {
-            window.location.href = "new/index.html";
-        }, 3000);
-    </script>
-</body>
-</html>/index.html" class="btn btn-primary">Go to Food Delivery App</a>
-            <a href="new/index.html" class="btn btn-secondary">Go to New Page</a>
-        </div>
+        let timeLeft = 5;
+        const totalTime = 5;
+        let targetUrl = 'food%20dilervy/index.html';
+        let isPaused = false;
+        let timerInterval = null;
 
-        <div class="loader"></div>
-    </div>
+        const countdownEl = document.getElementById('countdown');
+        const progressBar = document.getElementById('progress-bar');
+        const toggleBtn = document.getElementById('toggle-btn');
+        const statusText = document.getElementById('status-text');
 
-    <script>
-        // JavaScript automatic fallback redirect (runs after 3 seconds)
-        setTimeout(function() {
-            window.location.href = "new/index.html";
-        }, 3000);
+        const maxOffset = 251; // Circle circumference ($2 \cdot \pi \cdot 40$)
+
+        function updateTimer() {
+            if (isPaused) return;
+
+            timeLeft--;
+            countdownEl.textContent = timeLeft;
+
+            // Calculate SVG stroke offset for smooth visual decrease
+            const offset = maxOffset - (timeLeft / totalTime) * maxOffset;
+            progressBar.style.strokeDashoffset = offset;
+
+            if (timeLeft <= 0) {
+                clearInterval(timerInterval);
+                window.location.href = targetUrl;
+            }
+        }
+
+        function toggleTimer() {
+            isPaused = !isPaused;
+            if (isPaused) {
+                toggleBtn.textContent = 'Resume Timer';
+                statusText.textContent = 'Auto-redirect paused.';
+                statusText.style.color = '#f59e0b';
+            } else {
+                toggleBtn.textContent = 'Pause Auto-Redirect';
+                statusText.textContent = 'Redirecting to selected destination...';
+                statusText.style.color = '#94a3b8';
+            }
+        }
+
+        function selectDestination(url, element, event) {
+            // Prevent immediate navigation so user can choose or inspect
+            event.preventDefault();
+            
+            targetUrl = url;
+
+            // Update UI card highlight state
+            document.querySelectorAll('.card').forEach(card => card.classList.remove('active'));
+            element.classList.add('active');
+
+            // Reset Countdown for selected target
+            timeLeft = totalTime;
+            countdownEl.textContent = timeLeft;
+            progressBar.style.strokeDashoffset = 0;
+            
+            statusText.textContent = 'Target changed! Redirecting...';
+            statusText.style.color = '#a5b4fc';
+
+            if (isPaused) {
+                toggleTimer(); // Resume if it was paused
+            }
+        }
+
+        function redirectNow() {
+            window.location.href = targetUrl;
+        }
+
+        // Start 1-second interval timer
+        timerInterval = setInterval(updateTimer, 1000);
     </script>
 </body>
 </html>
