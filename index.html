@@ -3,316 +3,273 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Project Portal Hub</title>
+    <title>Nexus Hub | Project Gateway</title>
+    <!-- Google Fonts for sleek modern typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --bg-dark: #070913;
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --primary-glow: #6366f1;
+            --secondary-glow: #ec4899;
+            --accent-glow: #06b6d4;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+        }
+
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            user-select: none;
         }
 
         body {
-            background: #0f172a;
-            color: #ffffff;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 100vh;
-            padding: 20px;
             overflow: hidden;
             position: relative;
         }
 
-        /* Particle background elements */
-        .bg-glow {
+        /* Canvas Background for Dynamic Floating Particles */
+        #particle-canvas {
             position: absolute;
-            width: 300px;
-            height: 300px;
-            background: radial-gradient(circle, rgba(99, 102, 241, 0.35) 0%, rgba(0,0,0,0) 70%);
-            top: 20%;
-            left: 15%;
-            filter: blur(50px);
-            animation: float 6s ease-in-out infinite alternate;
-        }
-
-        .bg-glow-2 {
-            position: absolute;
-            width: 350px;
-            height: 350px;
-            background: radial-gradient(circle, rgba(236, 72, 153, 0.3) 0%, rgba(0,0,0,0) 70%);
-            bottom: 15%;
-            right: 15%;
-            filter: blur(50px);
-            animation: float 8s ease-in-out infinite alternate-reverse;
-        }
-
-        @keyframes float {
-            0% { transform: translateY(0px) scale(1); }
-            100% { transform: translateY(-30px) scale(1.1); }
-        }
-
-        .container {
-            background: rgba(30, 41, 59, 0.7);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.125);
-            border-radius: 24px;
-            padding: 40px 30px;
-            max-width: 520px;
+            top: 0;
+            left: 0;
             width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* Ambient Animated Lighting Orbs */
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(100px);
+            opacity: 0.45;
+            z-index: 0;
+            animation: pulse-glow 8s ease-in-out infinite alternate;
+        }
+
+        .orb-1 {
+            width: 450px;
+            height: 450px;
+            background: var(--primary-glow);
+            top: -10%;
+            left: -10%;
+        }
+
+        .orb-2 {
+            width: 400px;
+            height: 400px;
+            background: var(--secondary-glow);
+            bottom: -10%;
+            right: -10%;
+            animation-delay: -4s;
+        }
+
+        @keyframes pulse-glow {
+            0% { transform: scale(1) translate(0, 0); opacity: 0.35; }
+            100% { transform: scale(1.25) translate(40px, 30px); opacity: 0.55; }
+        }
+
+        /* Glassmorphism Container */
+        .portal-card {
+            position: relative;
+            z-index: 10;
+            width: 90%;
+            max-width: 540px;
+            background: rgba(15, 23, 42, 0.65);
+            backdrop-filter: blur(24px) saturate(180%);
+            -webkit-backdrop-filter: blur(24px) saturate(180%);
+            border: 1px solid var(--card-border);
+            border-radius: 28px;
+            padding: 45px 36px;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6),
+                        inset 0 1px 0 rgba(255, 255, 255, 0.1);
             text-align: center;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
-            z-index: 1;
-            transform: translateY(0);
-            transition: transform 0.3s ease;
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .portal-header {
+            margin-bottom: 28px;
+        }
+
+        .badge-live {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(99, 102, 241, 0.12);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            color: #a5b4fc;
+            padding: 6px 14px;
+            border-radius: 30px;
+            font-size: 0.78rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            margin-bottom: 16px;
+        }
+
+        .dot-pulse {
+            width: 8px;
+            height: 8px;
+            background-color: #6366f1;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #6366f1;
+            animation: blink 1.5s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.4; transform: scale(0.85); }
         }
 
         h1 {
-            font-size: 2rem;
-            margin-bottom: 8px;
-            background: linear-gradient(135deg, #a5b4fc, #e879f9);
+            font-size: 2.2rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            background: linear-gradient(135deg, #ffffff 30%, #a5b4fc 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            margin-bottom: 8px;
         }
 
         .subtitle {
-            color: #94a3b8;
-            font-size: 0.95rem;
-            margin-bottom: 30px;
+            color: var(--text-muted);
+            font-size: 0.92rem;
+            line-height: 1.5;
         }
 
-        /* Countdown circular bar */
-        .timer-container {
+        /* Circular Ring Timer Display */
+        .timer-ring-wrapper {
             position: relative;
-            width: 90px;
-            height: 90px;
-            margin: 0 auto 25px;
+            width: 110px;
+            height: 110px;
+            margin: 25px auto;
         }
 
-        .timer-svg {
-            transform: rotate(-90deg);
+        .timer-ring-wrapper svg {
             width: 100%;
             height: 100%;
+            transform: rotate(-90deg);
         }
 
-        .timer-circle-bg {
+        .ring-bg {
             fill: none;
-            stroke: rgba(255, 255, 255, 0.1);
-            stroke-width: 6;
+            stroke: rgba(255, 255, 255, 0.06);
+            stroke-width: 7;
         }
 
-        .timer-circle-progress {
+        .ring-progress {
             fill: none;
-            stroke: #6366f1;
-            stroke-width: 6;
-            stroke-dasharray: 251;
-            stroke-dashoffset: 0;
+            stroke: url(#gradient);
+            stroke-width: 7;
             stroke-linecap: round;
+            stroke-dasharray: 283;
+            stroke-dashoffset: 0;
             transition: stroke-dashoffset 1s linear;
         }
 
-        .timer-text {
+        .timer-number {
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: #f8fafc;
+            font-size: 2rem;
+            font-weight: 800;
+            color: #ffffff;
+            text-shadow: 0 0 20px rgba(99, 102, 241, 0.5);
         }
 
-        /* Destination Card Selection */
-        .cards-grid {
+        /* Target Selection Cards */
+        .options-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 16px;
-            margin-bottom: 25px;
+            margin-bottom: 28px;
         }
 
-        .card {
-            background: rgba(255, 255, 255, 0.03);
-            border: 2px solid rgba(255, 255, 255, 0.08);
-            border-radius: 16px;
-            padding: 20px 15px;
-            cursor: pointer;
+        .target-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 22px 16px;
             text-decoration: none;
-            color: #f8fafc;
+            color: var(--text-main);
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
+            cursor: pointer;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
             overflow: hidden;
         }
 
-        .card:hover {
-            transform: translateY(-5px);
-            background: rgba(255, 255, 255, 0.08);
+        .target-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), transparent);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .target-card:hover {
+            transform: translateY(-6px);
             border-color: rgba(99, 102, 241, 0.5);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3),
+                        0 0 20px rgba(99, 102, 241, 0.2);
         }
 
-        .card.active {
-            border-color: #6366f1;
+        .target-card:hover::before {
+            opacity: 1;
+        }
+
+        .target-card.selected {
             background: rgba(99, 102, 241, 0.15);
+            border-color: var(--primary-glow);
+            box-shadow: 0 0 25px rgba(99, 102, 241, 0.3);
         }
 
-        .card-icon {
-            font-size: 2rem;
-        }
-
-        .card-title {
-            font-size: 1rem;
-            font-weight: 600;
-        }
-
-        .card-badge {
-            font-size: 0.7rem;
-            padding: 3px 8px;
-            border-radius: 12px;
-            background: rgba(255, 255, 255, 0.1);
-            color: #cbd5e1;
-        }
-
-        /* Control Buttons */
-        .controls {
+        .card-icon-box {
+            width: 52px;
+            height: 52px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 14px;
             display: flex;
+            align-items: center;
             justify-content: center;
-            gap: 12px;
+            font-size: 1.6rem;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: transform 0.3s ease;
         }
 
-        .btn-action {
-            background: rgba(255, 255, 255, 0.08);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            color: #cbd5e1;
-            padding: 10px 18px;
-            border-radius: 10px;
-            cursor: pointer;
-            font-size: 0.85rem;
-            font-weight: 600;
-            transition: all 0.2s ease;
+        .target-card:hover .card-icon-box {
+            transform: scale(1.1) rotate(5deg);
         }
 
-        .btn-action:hover {
-            background: rgba(255, 255, 255, 0.18);
-            color: #ffffff;
-        }
-    </style>
-</head>
-<body>
-
-    <div class="bg-glow"></div>
-    <div class="bg-glow-2"></div>
-
-    <div class="container">
-        <h1>Project Portal</h1>
-        <p class="subtitle" id="status-text">Redirecting to default location...</p>
-
-        <!-- Dynamic Circular Countdown -->
-        <div class="timer-container">
-            <svg class="timer-svg" viewBox="0 0 90 90">
-                <circle class="timer-circle-bg" cx="45" cy="45" r="40"></circle>
-                <circle class="timer-circle-progress" id="progress-bar" cx="45" cy="45" r="40"></circle>
-            </svg>
-            <div class="timer-text" id="countdown">5</div>
-        </div>
-
-        <!-- Destination Options -->
-        <div class="cards-grid">
-            <a href="food%20dilervy/index.html" class="card active" id="card-food" onclick="selectDestination('food%20dilervy/index.html', this, event)">
-                <span class="card-icon">🍕</span>
-                <span class="card-title">Food Delivery</span>
-                <span class="card-badge">Default Target</span>
-            </a>
-
-            <a href="new/index.html" class="card" id="card-new" onclick="selectDestination('new/index.html', this, event)">
-                <span class="card-icon">🚀</span>
-                <span class="card-title">New Portal</span>
-                <span class="card-badge">Secondary Target</span>
-            </a>
-        </div>
-
-        <!-- Interactive Actions -->
-        <div class="controls">
-            <button class="btn-action" id="toggle-btn" onclick="toggleTimer()">Pause Auto-Redirect</button>
-            <button class="btn-action" onclick="redirectNow()">Go Now</button>
-        </div>
-    </div>
-
-    <script>
-        let timeLeft = 5;
-        const totalTime = 5;
-        let targetUrl = 'food%20dilervy/index.html';
-        let isPaused = false;
-        let timerInterval = null;
-
-        const countdownEl = document.getElementById('countdown');
-        const progressBar = document.getElementById('progress-bar');
-        const toggleBtn = document.getElementById('toggle-btn');
-        const statusText = document.getElementById('status-text');
-
-        const maxOffset = 251; // Circle circumference ($2 \cdot \pi \cdot 40$)
-
-        function updateTimer() {
-            if (isPaused) return;
-
-            timeLeft--;
-            countdownEl.textContent = timeLeft;
-
-            // Calculate SVG stroke offset for smooth visual decrease
-            const offset = maxOffset - (timeLeft / totalTime) * maxOffset;
-            progressBar.style.strokeDashoffset = offset;
-
-            if (timeLeft <= 0) {
-                clearInterval(timerInterval);
-                window.location.href = targetUrl;
-            }
+        .card-info {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
         }
 
-        function toggleTimer() {
-            isPaused = !isPaused;
-            if (isPaused) {
-                toggleBtn.textContent = 'Resume Timer';
-                statusText.textContent = 'Auto-redirect paused.';
-                statusText.style.color = '#f59e0b';
-            } else {
-                toggleBtn.textContent = 'Pause Auto-Redirect';
-                statusText.textContent = 'Redirecting to selected destination...';
-                statusText.style.color = '#94a3b8';
-            }
+        .card-name {
+            font-size: 0.95rem;
+            font-weight: 700;
+            letter-spacing: -0.01em;
         }
 
-        function selectDestination(url, element, event) {
-            // Prevent immediate navigation so user can choose or inspect
-            event.preventDefault();
-            
-            targetUrl = url;
-
-            // Update UI card highlight state
-            document.querySelectorAll('.card').forEach(card => card.classList.remove('active'));
-            element.classList.add('active');
-
-            // Reset Countdown for selected target
-            timeLeft = totalTime;
-            countdownEl.textContent = timeLeft;
-            progressBar.style.strokeDashoffset = 0;
-            
-            statusText.textContent = 'Target changed! Redirecting...';
-            statusText.style.color = '#a5b4fc';
-
-            if (isPaused) {
-                toggleTimer(); // Resume if it was paused
-            }
-        }
-
-        function redirectNow() {
-            window.location.href = targetUrl;
-        }
-
-        // Start 1-second interval timer
-        timerInterval = setInterval(updateTimer, 1000);
-    </script>
-</body>
-</html>
+        .card-path {
+            font
