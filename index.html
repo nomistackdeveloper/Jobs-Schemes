@@ -105,7 +105,114 @@
         <p>Redirecting you automatically... If nothing happens, please choose a destination below:</p>
 
         <div class="links-container">
-            <a href="food%20dilervy/index.html" class="btn btn-primary">Go to Food Delivery App</a>
+            <a href="<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Main Hub | Redirecting...</title>
+    <!-- Meta refresh auto-redirect to food delivery page by default after 3 seconds -->
+    <meta http-equiv="refresh" content="3;url=food%20dilervy/index.html">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #1e1e2f, #2d2b42);
+            color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 40px;
+            max-width: 480px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        h1 {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+        }
+
+        p {
+            color: #b3b3b3;
+            font-size: 0.95rem;
+            margin-bottom: 25px;
+        }
+
+        .links-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .btn {
+            display: block;
+            padding: 14px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background-color: #ff6b6b;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #ff5252;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background-color: #4ecdc4;
+            color: #1e1e2f;
+        }
+
+        .btn-secondary:hover {
+            background-color: #3dbdb4;
+            transform: translateY(-2px);
+        }
+
+        .loader {
+            margin: 20px auto 0;
+            border: 3px solid rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            border-top: 3px solid #ff6b6b;
+            width: 24px;
+            height: 24px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Welcome to the Project</h1>
+        <p>Redirecting you automatically... If nothing happens, please choose a destination below:</p>
+
+        <div class="links-container">
+            <a href="new/index.html" class="btn btn-primary">Go to Food Delivery App</a>
             <a href="new/index.html" class="btn btn-secondary">Go to New Page</a>
         </div>
 
@@ -115,7 +222,21 @@
     <script>
         // JavaScript automatic fallback redirect (runs after 3 seconds)
         setTimeout(function() {
-            window.location.href = "food%20dilervy/index.html";
+            window.location.href = "new/index.html";
+        }, 3000);
+    </script>
+</body>
+</html>/index.html" class="btn btn-primary">Go to Food Delivery App</a>
+            <a href="new/index.html" class="btn btn-secondary">Go to New Page</a>
+        </div>
+
+        <div class="loader"></div>
+    </div>
+
+    <script>
+        // JavaScript automatic fallback redirect (runs after 3 seconds)
+        setTimeout(function() {
+            window.location.href = "new/index.html";
         }, 3000);
     </script>
 </body>
