@@ -52,17 +52,22 @@
             color: #01411C;
         }
 
-        /* --- Hide Google Translate Toolbar & Popups --- */
+        /* --- Complete Google Bar Hide without translation crash --- */
         .goog-te-banner-frame,
+        iframe.goog-te-banner-frame,
         .goog-te-banner,
-        .skiptranslate,
-        iframe.goog-te-banner-frame { 
+        .VIpgJd-yD3FA-pjLVth { 
             display: none !important; 
             visibility: hidden !important;
         }
+        
         #google_translate_element { 
-            display: none !important; 
+            position: absolute;
+            left: -9999px;
+            top: -9999px;
+            visibility: hidden;
         }
+
         .goog-text-highlight {
             background-color: transparent !important;
             box-shadow: none !important;
@@ -71,7 +76,7 @@
 </head>
 <body class="bg-gray-50 flex flex-col min-h-screen">
 
-    <!-- Hidden Google Translate Element -->
+    <!-- Google Translate Hidden Container -->
     <div id="google_translate_element"></div>
 
     <!-- Top Announcement Bar -->
@@ -400,26 +405,46 @@
         </div>
     </footer>
 
-    <!-- Google Translate Script -->
+    <!-- Robust Google Translate Logic -->
     <script type="text/javascript">
+        // 1. Clear saved auto-translate cookies to prevent auto-translation loops on mobile
+        function cleargoogtransCookie() {
+            document.cookie = "googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+            document.cookie = "googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; domain=" + location.hostname + "; path=/;";
+        }
+
         function googleTranslateElementInit() {
             new google.translate.TranslateElement({
                 pageLanguage: 'en',
                 includedLanguages: 'en,ur',
-                autoDisplay: false,
-                layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+                autoDisplay: false
             }, 'google_translate_element');
         }
 
+        // 2. Cross-device reliable translation handler
         function translatePage(langCode) {
-            var selectElement = document.querySelector('.goog-te-combo');
-            if (selectElement) {
-                selectElement.value = langCode;
-                selectElement.dispatchEvent(new Event('change'));
+            if (langCode === 'en') {
+                cleargoogtransCookie();
             }
+
+            var attempts = 0;
+            var maxAttempts = 20;
+
+            var interval = setInterval(function() {
+                var selectElement = document.querySelector('.goog-te-combo');
+                if (selectElement) {
+                    selectElement.value = langCode;
+                    selectElement.dispatchEvent(new Event('change'));
+                    clearInterval(interval);
+                }
+                attempts++;
+                if (attempts >= maxAttempts) {
+                    clearInterval(interval);
+                }
+            }, 150);
         }
     </script>
-    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+    <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 
     <!-- Interactive CNIC Checker & UI Scripts -->
     <script>
