@@ -1,225 +1,1991 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Project Hub</title>
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --bg-dark: #0b0f19;
-            --card-bg: rgba(255, 255, 255, 0.03);
-            --card-border: rgba(255, 255, 255, 0.08);
-            --primary-glow: #6366f1;
-            --secondary-glow: #ec4899;
-            --text-main: #f8fafc;
-            --text-muted: #94a3b8;
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>QuickBite Express - Hyper-Local Food Delivery Platform</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#fff7ed',
+              100: '#ffedd5',
+              500: '#f97316',
+              600: '#ea580c',
+              700: '#c2410c',
+            }
+          }
         }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Plus Jakarta Sans', sans-serif;
-        }
-
-        body {
-            background-color: var(--bg-dark);
-            color: var(--text-main);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden;
-            position: relative;
-        }
-
-        /* Ambient Animated Lighting Orbs */
-        .orb {
-            position: absolute;
-            border-radius: 50%;
-            filter: blur(100px);
-            opacity: 0.4;
-            z-index: 0;
-            animation: float 8s ease-in-out infinite alternate;
-        }
-
-        .orb-1 {
-            width: 400px;
-            height: 400px;
-            background: var(--primary-glow);
-            top: -10%;
-            left: -10%;
-        }
-
-        .orb-2 {
-            width: 380px;
-            height: 380px;
-            background: var(--secondary-glow);
-            bottom: -10%;
-            right: -10%;
-            animation-delay: -4s;
-        }
-
-        @keyframes float {
-            0% { transform: scale(1) translate(0, 0); }
-            100% { transform: scale(1.15) translate(30px, 20px); }
-        }
-
-        /* Main Glass Card */
-        .portal-card {
-            position: relative;
-            z-index: 10;
-            width: 90%;
-            max-width: 480px;
-            background: rgba(15, 23, 42, 0.7);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid var(--card-border);
-            border-radius: 28px;
-            padding: 45px 35px;
-            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5),
-                        inset 0 1px 0 rgba(255, 255, 255, 0.1);
-            text-align: center;
-        }
-
-        .header {
-            margin-bottom: 35px;
-        }
-
-        .badge {
-            display: inline-block;
-            background: rgba(99, 102, 241, 0.12);
-            border: 1px solid rgba(99, 102, 241, 0.3);
-            color: #a5b4fc;
-            padding: 6px 14px;
-            border-radius: 30px;
-            font-size: 0.8rem;
-            font-weight: 700;
-            letter-spacing: 0.05em;
-            text-transform: uppercase;
-            margin-bottom: 16px;
-        }
-
-        h1 {
-            font-size: 2.2rem;
-            font-weight: 800;
-            background: linear-gradient(135deg, #ffffff 30%, #a5b4fc 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 10px;
-        }
-
-        p {
-            color: var(--text-muted);
-            font-size: 0.95rem;
-        }
-
-        /* Destination Cards */
-        .cards-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 16px;
-        }
-
-        .nav-card {
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            border-radius: 20px;
-            padding: 22px 24px;
-            text-decoration: none;
-            color: var(--text-main);
-            display: flex;
-            align-items: center;
-            gap: 20px;
-            transition: all 0.3s ease;
-        }
-
-        .nav-card:hover {
-            transform: translateY(-4px);
-            background: rgba(255, 255, 255, 0.07);
-            border-color: rgba(99, 102, 241, 0.5);
-            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.3),
-                        0 0 20px rgba(99, 102, 241, 0.15);
-        }
-
-        .icon-box {
-            width: 52px;
-            height: 52px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 14px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.6rem;
-            flex-shrink: 0;
-            transition: transform 0.3s ease;
-        }
-
-        .nav-card:hover .icon-box {
-            transform: scale(1.1) rotate(5deg);
-        }
-
-        .info-box {
-            text-align: left;
-            flex-grow: 1;
-        }
-
-        .card-title {
-            display: block;
-            font-size: 1.15rem;
-            font-weight: 700;
-        }
-
-        .arrow {
-            font-size: 1.2rem;
-            color: var(--text-muted);
-            transition: transform 0.3s ease, color 0.3s ease;
-        }
-
-        .nav-card:hover .arrow {
-            transform: translateX(5px);
-            color: #a5b4fc;
-        }
-    </style>
+      }
+    }
+  </script>
+  
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: #f8fafc;
+      color: #0f172a;
+    }
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: #f1f5f9;
+      border-radius: 4px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 4px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+      background: #94a3b8;
+    }
+    @keyframes pulse-ring {
+      0% { transform: scale(0.95); opacity: 0.8; }
+      50% { transform: scale(1.05); opacity: 1; }
+      100% { transform: scale(0.95); opacity: 0.8; }
+    }
+    .pulse-ring {
+      animation: pulse-ring 2s infinite ease-in-out;
+    }
+  </style>
 </head>
-<body>
+<body class="min-h-screen flex flex-col bg-slate-50 text-slate-900 antialiased selection:bg-orange-500 selection:text-white">
 
-    <!-- Ambient background glows -->
-    <div class="orb orb-1"></div>
-    <div class="orb orb-2"></div>
-
-    <div class="portal-card">
-        <div class="header">
-            <span class="badge">Project Gateway</span>
-            <h1>Select Portal</h1>
-            <p>Choose which application you want to visit:</p>
+  <!-- TOP NAVIGATION HEADER -->
+  <header class="sticky top-0 z-40 bg-white/90 backdrop-blur-md border-b border-slate-200/80 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16">
+        
+        <!-- Logo & DB Engine Status -->
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-orange-600 to-amber-500 text-white flex items-center justify-center font-bold shadow-md shadow-orange-500/20">
+            <i data-lucide="zap" class="w-6 h-6"></i>
+          </div>
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="font-extrabold text-xl tracking-tight text-slate-900">QuickBite</span>
+              <span class="text-xs font-bold px-2 py-0.5 rounded-full bg-orange-100 text-orange-700 uppercase tracking-wider">Express</span>
+            </div>
+            <div class="flex items-center gap-1.5 text-xs text-slate-500">
+              <span id="db-status-dot" class="w-2 h-2 rounded-full bg-emerald-500 pulse-ring"></span>
+              <span id="db-status-text" class="font-medium">Firebase RTDB Ready</span>
+            </div>
+          </div>
         </div>
 
-        <div class="cards-grid">
-            <!-- Link 1: Food Delivery -->
-            <a href="food%20dilervy/index.html" class="nav-card">
-                <div class="icon-box">🍕</div>
-                <div class="info-box">
-                    <span class="card-title">Food Delivery App</span>
-                </div>
-                <span class="arrow">→</span>
-            </a>
+        <!-- Quick Demo Role Switcher & Firebase Config Button -->
+        <div class="flex items-center gap-2 sm:gap-3">
+          
+          <div class="hidden md:flex items-center gap-1 bg-slate-100 p-1 rounded-xl border border-slate-200/60 text-xs font-semibold">
+            <span class="text-slate-400 px-2 py-1">Demo Quick-Switch:</span>
+            <button onclick="window.demoLogin('customer')" class="px-2.5 py-1 rounded-lg hover:bg-white text-slate-700 hover:text-orange-600 transition shadow-none hover:shadow-xs">Customer</button>
+            <button onclick="window.demoLogin('shopkeeper')" class="px-2.5 py-1 rounded-lg hover:bg-white text-slate-700 hover:text-orange-600 transition shadow-none hover:shadow-xs">Shopkeeper</button>
+            <button onclick="window.demoLogin('rider')" class="px-2.5 py-1 rounded-lg hover:bg-white text-slate-700 hover:text-orange-600 transition shadow-none hover:shadow-xs">Rider</button>
+            <button onclick="window.demoLogin('admin')" class="px-2.5 py-1 rounded-lg hover:bg-white text-slate-700 hover:text-orange-600 transition shadow-none hover:shadow-xs">Admin</button>
+          </div>
 
-            <!-- Link 2: New Page -->
-            <a href="new/index.html" class="nav-card">
-                <div class="icon-box">🚀</div>
-                <div class="info-box">
-                    <span class="card-title">Govt_Jobs & Schemes</span>
-                </div>
-                <span class="arrow">→</span>
-            </a>
+          <button onclick="window.openFirebaseConfigModal()" class="flex items-center gap-1.5 text-xs font-semibold px-3 py-2 rounded-xl bg-slate-100 hover:bg-slate-200/80 text-slate-700 transition">
+            <i data-lucide="settings" class="w-3.5 h-3.5"></i>
+            <span class="hidden sm:inline">Firebase Config</span>
+          </button>
+
+          <!-- User Profile / Logout Button -->
+          <div id="user-header-profile" class="hidden items-center gap-2 pl-2 border-l border-slate-200">
+            <div class="text-right hidden sm:block">
+              <div id="user-header-name" class="text-xs font-bold text-slate-800">User Name</div>
+              <div id="user-header-role" class="text-[10px] font-semibold text-orange-600 uppercase tracking-wider">Role</div>
+            </div>
+            <button onclick="window.appLogout()" title="Logout" class="p-2 rounded-xl text-slate-500 hover:text-rose-600 hover:bg-rose-50 transition">
+              <i data-lucide="log-out" class="w-4 h-4"></i>
+            </button>
+          </div>
+
         </div>
+
+      </div>
     </div>
+  </header>
+
+  <!-- SYSTEM ANNOUNCEMENT BANNER -->
+  <div id="demo-banner" class="bg-gradient-to-r from-orange-500 via-amber-500 to-orange-600 text-white text-xs font-medium py-2 px-4 text-center flex items-center justify-center gap-2 shadow-inner">
+    <i data-lucide="info" class="w-4 h-4 shrink-0"></i>
+    <span>Hyper-Local COD Delivery System • Real-Time Order Sync, Live Chat, Dynamic Rider Rates & Auto-Reassign</span>
+    <button onclick="this.parentElement.remove()" class="ml-auto text-white/80 hover:text-white"><i data-lucide="x" class="w-3.5 h-3.5"></i></button>
+  </div>
+
+  <!-- MAIN APPLICATION CONTENT CONTAINER -->
+  <main class="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 lg:p-8">
+
+    <!-- AUTH SECTION (Show when logged out) -->
+    <section id="auth-section" class="max-w-md mx-auto my-8">
+      <div class="bg-white rounded-2xl shadow-xl shadow-slate-200/50 border border-slate-200 overflow-hidden">
+        
+        <!-- Auth Header -->
+        <div class="p-6 bg-slate-900 text-white text-center relative">
+          <div class="w-12 h-12 mx-auto mb-3 rounded-2xl bg-orange-500 text-white flex items-center justify-center font-bold shadow-lg shadow-orange-500/30">
+            <i data-lucide="shield-check" class="w-6 h-6"></i>
+          </div>
+          <h2 class="text-2xl font-bold tracking-tight">Welcome to QuickBite</h2>
+          <p class="text-xs text-slate-400 mt-1">Select your role to access your portal</p>
+        </div>
+
+        <!-- Role Tabs -->
+        <div class="grid grid-cols-4 bg-slate-100 p-1 border-b border-slate-200 text-xs font-bold text-slate-600">
+          <button type="button" onclick="window.setAuthRoleTab('customer')" id="tab-role-customer" class="py-2.5 rounded-xl bg-white text-orange-600 shadow-xs transition">Customer</button>
+          <button type="button" onclick="window.setAuthRoleTab('shopkeeper')" id="tab-role-shopkeeper" class="py-2.5 rounded-xl hover:text-slate-900 transition">Shopkeeper</button>
+          <button type="button" onclick="window.setAuthRoleTab('rider')" id="tab-role-rider" class="py-2.5 rounded-xl hover:text-slate-900 transition">Rider</button>
+          <button type="button" onclick="window.setAuthRoleTab('admin')" id="tab-role-admin" class="py-2.5 rounded-xl hover:text-slate-900 transition">Admin</button>
+        </div>
+
+        <!-- Login / Signup Mode Toggle -->
+        <div class="p-6">
+          <div class="flex items-center justify-between mb-6 pb-2 border-b border-slate-100">
+            <span id="auth-form-title" class="text-base font-bold text-slate-800">Customer Login</span>
+            <button type="button" onclick="window.toggleAuthMode()" id="auth-toggle-btn" class="text-xs font-bold text-orange-600 hover:text-orange-700">
+              Need an account? Sign Up
+            </button>
+          </div>
+
+          <form id="auth-form" onsubmit="window.handleAuthSubmit(event)" class="space-y-4">
+            <input type="hidden" id="auth-role" value="customer" />
+            <input type="hidden" id="auth-mode" value="login" />
+
+            <!-- Signup Extra Fields -->
+            <div id="signup-extra-fields" class="hidden space-y-4">
+              <div>
+                <label class="block text-xs font-bold text-slate-700 mb-1">Full Name / Shop Name</label>
+                <input type="text" id="auth-name" placeholder="John Doe" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:ring-2 focus:ring-orange-500 focus:outline-none" />
+              </div>
+              <div>
+                <label class="block text-xs font-bold text-slate-700 mb-1">Phone Number (Required for COD)</label>
+                <input type="tel" id="auth-phone" placeholder="+1 555-0199" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:ring-2 focus:ring-orange-500 focus:outline-none" />
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">Email Address</label>
+              <input type="email" id="auth-email" required placeholder="user@quickbite.com" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:ring-2 focus:ring-orange-500 focus:outline-none" />
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">Password</label>
+              <input type="password" id="auth-password" required placeholder="••••••••" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:ring-2 focus:ring-orange-500 focus:outline-none" />
+            </div>
+
+            <div id="auth-error-msg" class="hidden text-xs font-semibold text-rose-600 p-3 bg-rose-50 rounded-xl border border-rose-200"></div>
+
+            <button type="submit" id="auth-submit-btn" class="w-full py-3 px-4 rounded-xl bg-orange-600 hover:bg-orange-700 text-white font-bold text-sm shadow-md shadow-orange-500/20 transition">
+              Sign In
+            </button>
+          </form>
+
+          <!-- Quick Test Credentials -->
+          <div class="mt-6 pt-4 border-t border-slate-100 text-center">
+            <p class="text-[11px] font-medium text-slate-500 mb-2">Instant Demo Logins (Click below):</p>
+            <div class="grid grid-cols-2 gap-2 text-xs font-semibold">
+              <button onclick="window.demoLogin('customer')" class="py-2 px-3 bg-slate-100 hover:bg-orange-50 hover:text-orange-600 rounded-lg text-slate-700 transition">👤 Customer</button>
+              <button onclick="window.demoLogin('shopkeeper')" class="py-2 px-3 bg-slate-100 hover:bg-orange-50 hover:text-orange-600 rounded-lg text-slate-700 transition">🏪 Shopkeeper</button>
+              <button onclick="window.demoLogin('rider')" class="py-2 px-3 bg-slate-100 hover:bg-orange-50 hover:text-orange-600 rounded-lg text-slate-700 transition">🏍️ Rider</button>
+              <button onclick="window.demoLogin('admin')" class="py-2 px-3 bg-slate-100 hover:bg-orange-50 hover:text-orange-600 rounded-lg text-slate-700 transition">🛡️ Admin</button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- DASHBOARD VIEWS CONTAINER -->
+    <div id="dashboards-container" class="hidden">
+
+      <!-- ========================================================= -->
+      <!-- 1. CUSTOMER DASHBOARD -->
+      <!-- ========================================================= -->
+      <section id="view-customer" class="hidden space-y-6">
+        
+        <!-- Active Order Alert Card (If Customer has an ongoing order) -->
+        <div id="customer-active-order-banner" class="hidden bg-gradient-to-r from-slate-900 to-slate-800 text-white rounded-2xl p-6 shadow-xl border border-slate-700">
+          <div class="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
+            
+            <div class="space-y-2 flex-1">
+              <div class="flex items-center gap-2">
+                <span class="px-2.5 py-1 bg-orange-500/20 text-orange-400 border border-orange-500/30 font-bold text-xs rounded-full uppercase tracking-wider">
+                  Live Active Order #<span id="cust-active-id">101</span>
+                </span>
+                <span id="cust-active-status-badge" class="px-2.5 py-1 bg-emerald-500/20 text-emerald-400 font-bold text-xs rounded-full">
+                  Preparing
+                </span>
+              </div>
+              <h3 id="cust-active-shop-title" class="text-xl font-extrabold">Pizza Bella & Pasta</h3>
+              <p id="cust-active-items-summary" class="text-xs text-slate-300">1x Large Pepperoni, 2x Garlic Knots • COD Total: $24.50</p>
+            </div>
+
+            <!-- Synchronized Countdown Timer & Actions -->
+            <div class="flex flex-wrap items-center gap-4 w-full lg:w-auto">
+              
+              <!-- Countdown Circle Widget -->
+              <div class="bg-slate-800/80 p-3 rounded-xl border border-slate-700 flex items-center gap-3">
+                <div class="w-10 h-10 rounded-full bg-orange-500/20 text-orange-400 flex items-center justify-center font-bold">
+                  <i data-lucide="clock" class="w-5 h-5"></i>
+                </div>
+                <div>
+                  <div class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Target Delivery</div>
+                  <div id="cust-timer-display" class="text-lg font-black text-white tracking-widest">29:45</div>
+                </div>
+              </div>
+
+              <!-- Chat & Action Buttons -->
+              <div class="flex items-center gap-2">
+                <button onclick="window.openCustomerChatModal()" class="py-2.5 px-4 bg-orange-600 hover:bg-orange-500 text-white font-bold text-xs rounded-xl shadow-md transition flex items-center gap-2">
+                  <i data-lucide="message-square" class="w-4 h-4"></i>
+                  <span>In-App Chat</span>
+                  <span id="cust-unread-chat-badge" class="hidden w-2 h-2 rounded-full bg-white"></span>
+                </button>
+
+                <button onclick="window.rejectDamagedParcel()" class="py-2.5 px-3 bg-rose-600/30 hover:bg-rose-600/50 text-rose-300 font-bold text-xs rounded-xl border border-rose-500/40 transition flex items-center gap-1.5" title="Reject food if damaged on arrival">
+                  <i data-lucide="alert-triangle" class="w-4 h-4"></i>
+                  <span>Food Damaged ($0 COD)</span>
+                </button>
+              </div>
+
+            </div>
+
+          </div>
+
+          <!-- Order Progress Stepper -->
+          <div class="mt-6 pt-6 border-t border-slate-800">
+            <div class="grid grid-cols-5 text-center text-xs font-semibold gap-2">
+              <div id="step-pending" class="space-y-1 opacity-40">
+                <div class="w-7 h-7 mx-auto rounded-full bg-orange-500 text-white flex items-center justify-center font-bold text-xs">1</div>
+                <div class="text-[11px]">Placed</div>
+              </div>
+              <div id="step-accepted" class="space-y-1 opacity-40">
+                <div class="w-7 h-7 mx-auto rounded-full bg-slate-700 text-slate-300 flex items-center justify-center font-bold text-xs">2</div>
+                <div class="text-[11px]">Accepted</div>
+              </div>
+              <div id="step-preparing" class="space-y-1 opacity-40">
+                <div class="w-7 h-7 mx-auto rounded-full bg-slate-700 text-slate-300 flex items-center justify-center font-bold text-xs">3</div>
+                <div class="text-[11px]">Preparing</div>
+              </div>
+              <div id="step-delivering" class="space-y-1 opacity-40">
+                <div class="w-7 h-7 mx-auto rounded-full bg-slate-700 text-slate-300 flex items-center justify-center font-bold text-xs">4</div>
+                <div class="text-[11px]">On the Way</div>
+              </div>
+              <div id="step-delivered" class="space-y-1 opacity-40">
+                <div class="w-7 h-7 mx-auto rounded-full bg-slate-700 text-slate-300 flex items-center justify-center font-bold text-xs">5</div>
+                <div class="text-[11px]">Delivered</div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Shop Directory Search & Header -->
+        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+          <div>
+            <h2 class="text-2xl font-extrabold text-slate-900 tracking-tight">Hyper-Local Merchants</h2>
+            <p class="text-xs text-slate-500">Order fresh food paid via Cash on Delivery (COD)</p>
+          </div>
+          <div class="w-full sm:w-72 relative">
+            <i data-lucide="search" class="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"></i>
+            <input type="text" id="cust-search-input" oninput="window.renderShopDirectory()" placeholder="Search pizza, burger, sushi..." class="w-full pl-9 pr-4 py-2 rounded-xl border border-slate-300 bg-white text-xs focus:ring-2 focus:ring-orange-500 focus:outline-none" />
+          </div>
+        </div>
+
+        <!-- Shops Grid -->
+        <div id="shops-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <!-- Dynamically Rendered Shops -->
+        </div>
+
+      </section>
+
+      <!-- ========================================================= -->
+      <!-- 2. SHOPKEEPER DASHBOARD -->
+      <!-- ========================================================= -->
+      <section id="view-shopkeeper" class="hidden space-y-6">
+        
+        <!-- Shop Header & Auto-Reassign Toggle -->
+        <div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-xs flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+          <div class="space-y-1">
+            <div class="flex items-center gap-2">
+              <h2 id="shopkeeper-store-name" class="text-2xl font-extrabold text-slate-900">My Restaurant</h2>
+              <span id="shopkeeper-status-badge" class="px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-700 text-xs font-bold">Open</span>
+            </div>
+            <p class="text-xs text-slate-500">Manage incoming COD orders, cart edits, and dispatch nearby riders</p>
+          </div>
+
+          <!-- Controls: Auto-Reassign Switch -->
+          <div class="flex flex-wrap items-center gap-4 bg-slate-50 p-3 rounded-xl border border-slate-200">
+            <div class="flex items-center gap-3">
+              <label class="relative inline-flex items-center cursor-pointer">
+                <input type="checkbox" id="auto-reassign-toggle" onchange="window.toggleAutoReassign(this.checked)" class="sr-only peer" checked />
+                <div class="w-11 h-6 bg-slate-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-orange-600"></div>
+              </label>
+              <div>
+                <div class="text-xs font-bold text-slate-800">Auto-Reassign Missed Orders</div>
+                <div class="text-[10px] text-slate-500">Reassigns after 3 mins idle</div>
+              </div>
+            </div>
+
+            <button onclick="window.openMenuManagerModal()" class="py-2 px-3.5 bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs rounded-xl transition flex items-center gap-1.5">
+              <i data-lucide="utensils" class="w-4 h-4"></i>
+              <span>Manage Menu</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Incoming & Active Merchant Orders -->
+        <div class="space-y-4">
+          <h3 class="text-lg font-bold text-slate-900 flex items-center gap-2">
+            <i data-lucide="shopping-bag" class="w-5 h-5 text-orange-600"></i>
+            <span>Active Orders Management</span>
+          </h3>
+
+          <div id="shopkeeper-orders-list" class="space-y-4">
+            <!-- Dynamically populated orders -->
+          </div>
+        </div>
+
+      </section>
+
+      <!-- ========================================================= -->
+      <!-- 3. RIDER DASHBOARD -->
+      <!-- ========================================================= -->
+      <section id="view-rider" class="hidden space-y-6">
+        
+        <!-- Driver Controls & Unsettled Cash Safety Card -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          
+          <!-- Driver Status & Settings -->
+          <div class="lg:col-span-1 bg-white rounded-2xl p-6 border border-slate-200 shadow-xs space-y-5">
+            <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+              <h3 class="font-bold text-slate-900 flex items-center gap-2">
+                <i data-lucide="bike" class="w-5 h-5 text-orange-600"></i>
+                <span>Driver Controls</span>
+              </h3>
+              <label class="relative inline-flex items-center cursor-pointer">
+                <input type="checkbox" id="rider-online-toggle" onchange="window.toggleRiderStatus(this.checked)" class="sr-only peer" />
+                <div class="w-11 h-6 bg-slate-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-600"></div>
+              </label>
+            </div>
+
+            <!-- Custom Base Delivery Fee -->
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">My Base Delivery Fee ($)</label>
+              <div class="relative">
+                <span class="absolute left-3 top-1/2 -translate-y-1/2 font-bold text-slate-400">$</span>
+                <input type="number" step="0.50" id="rider-fee-input" onchange="window.updateRiderSettings()" value="3.00" class="w-full pl-8 pr-3 py-2 rounded-xl border border-slate-300 text-sm font-bold focus:ring-2 focus:ring-orange-500 focus:outline-none" />
+              </div>
+            </div>
+
+            <!-- Max Radius Slider -->
+            <div>
+              <div class="flex justify-between text-xs font-bold text-slate-700 mb-1">
+                <span>Max Delivery Radius</span>
+                <span id="rider-radius-val" class="text-orange-600">5 km</span>
+              </div>
+              <input type="range" id="rider-radius-slider" min="1" max="25" value="5" oninput="document.getElementById('rider-radius-val').innerText = this.value + ' km'; window.updateRiderSettings()" class="w-full accent-orange-600" />
+            </div>
+
+          </div>
+
+          <!-- Unsettled Cash Safety System Widget -->
+          <div class="lg:col-span-2 bg-slate-900 text-white rounded-2xl p-6 shadow-xl border border-slate-800 flex flex-col justify-between space-y-4">
+            <div class="flex items-start justify-between">
+              <div>
+                <span class="px-2.5 py-1 bg-amber-500/20 text-amber-400 border border-amber-500/30 font-bold text-[10px] rounded-full uppercase tracking-wider">Safety Enforcement</span>
+                <h3 class="text-xl font-extrabold mt-1">Unsettled Cash Collected</h3>
+                <p class="text-xs text-slate-400 mt-0.5">Automated $50 limit guard to prevent cash withholding</p>
+              </div>
+              <button onclick="window.settleRiderCash()" class="py-2.5 px-4 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs rounded-xl shadow-md transition flex items-center gap-1.5">
+                <i data-lucide="check-circle-2" class="w-4 h-4"></i>
+                <span>Settle Cash with Shopkeeper</span>
+              </button>
+            </div>
+
+            <div>
+              <div class="flex items-center justify-between text-xs font-bold mb-2">
+                <span>Current Cash: $<span id="rider-unsettled-amount">0.00</span></span>
+                <span class="text-slate-400">$50.00 Max Limit</span>
+              </div>
+              <div class="w-full h-3 bg-slate-800 rounded-full overflow-hidden border border-slate-700">
+                <div id="rider-cash-bar" class="h-full bg-emerald-500 transition-all duration-500" style="width: 0%"></div>
+              </div>
+              <p id="rider-cash-warning" class="hidden text-xs text-rose-400 font-bold mt-2 flex items-center gap-1">
+                <i data-lucide="alert-octagon" class="w-4 h-4"></i>
+                <span>Limit Exceeded! You are automatically switched OFFLINE until settled.</span>
+              </p>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Rider Delivery Dispatch List -->
+        <div class="space-y-4">
+          <h3 class="text-lg font-bold text-slate-900 flex items-center gap-2">
+            <i data-lucide="navigation" class="w-5 h-5 text-orange-600"></i>
+            <span>Assigned Delivery Requests</span>
+          </h3>
+
+          <div id="rider-orders-list" class="space-y-4">
+            <!-- Dynamically rendered deliveries -->
+          </div>
+        </div>
+
+      </section>
+
+      <!-- ========================================================= -->
+      <!-- 4. ADMIN DASHBOARD -->
+      <!-- ========================================================= -->
+      <section id="view-admin" class="hidden space-y-6">
+        
+        <!-- Key Platform Metrics -->
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+          <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs">
+            <div class="text-xs font-bold text-slate-500 uppercase tracking-wider">Total City Orders</div>
+            <div id="admin-stat-orders" class="text-2xl font-black text-slate-900 mt-1">0</div>
+          </div>
+          <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs">
+            <div class="text-xs font-bold text-slate-500 uppercase tracking-wider">Total COD Volume</div>
+            <div id="admin-stat-volume" class="text-2xl font-black text-emerald-600 mt-1">$0.00</div>
+          </div>
+          <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs">
+            <div class="text-xs font-bold text-slate-500 uppercase tracking-wider">Approved Merchants</div>
+            <div id="admin-stat-shops" class="text-2xl font-black text-slate-900 mt-1">0</div>
+          </div>
+          <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs">
+            <div class="text-xs font-bold text-slate-500 uppercase tracking-wider">Active Riders</div>
+            <div id="admin-stat-riders" class="text-2xl font-black text-slate-900 mt-1">0</div>
+          </div>
+        </div>
+
+        <!-- Registered Users Control Table -->
+        <div class="bg-white rounded-2xl border border-slate-200 shadow-xs overflow-hidden">
+          <div class="p-5 border-b border-slate-100 flex items-center justify-between">
+            <h3 class="font-bold text-slate-900 text-base">User Accounts & Roles Management</h3>
+            <span class="text-xs text-slate-500">Real-time status controls</span>
+          </div>
+
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs">
+              <thead class="bg-slate-50 text-slate-600 uppercase tracking-wider border-b border-slate-200 font-bold">
+                <tr>
+                  <th class="p-3.5">User / Shop</th>
+                  <th class="p-3.5">Role</th>
+                  <th class="p-3.5">Contact Phone</th>
+                  <th class="p-3.5">Email</th>
+                  <th class="p-3.5">Status</th>
+                  <th class="p-3.5 text-right">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="admin-users-table-body" class="divide-y divide-slate-100 font-medium">
+                <!-- Dynamically populated -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Active City Order Monitor Table -->
+        <div class="bg-white rounded-2xl border border-slate-200 shadow-xs overflow-hidden">
+          <div class="p-5 border-b border-slate-100 flex items-center justify-between">
+            <h3 class="font-bold text-slate-900 text-base">All City Active Orders Monitor</h3>
+            <span class="text-xs text-slate-500">Live order audit & chat dispute inspection</span>
+          </div>
+
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs">
+              <thead class="bg-slate-50 text-slate-600 uppercase tracking-wider border-b border-slate-200 font-bold">
+                <tr>
+                  <th class="p-3.5">Order ID</th>
+                  <th class="p-3.5">Customer</th>
+                  <th class="p-3.5">Merchant</th>
+                  <th class="p-3.5">Rider</th>
+                  <th class="p-3.5">COD Amount</th>
+                  <th class="p-3.5">Status</th>
+                  <th class="p-3.5 text-right">Dispute Audit</th>
+                </tr>
+              </thead>
+              <tbody id="admin-orders-table-body" class="divide-y divide-slate-100 font-medium">
+                <!-- Dynamically populated -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </section>
+
+    </div>
+
+  </main>
+
+  <!-- ========================================================= -->
+  <!-- MODALS CONTAINER -->
+  <!-- ========================================================= -->
+
+  <!-- 1. FIREBASE CONFIG MODAL -->
+  <div id="modal-firebase-config" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl border border-slate-200 space-y-4">
+      <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+        <h3 class="font-extrabold text-slate-900 text-lg flex items-center gap-2">
+          <i data-lucide="settings" class="w-5 h-5 text-orange-600"></i>
+          <span>Firebase Connection Settings</span>
+        </h3>
+        <button onclick="window.closeFirebaseConfigModal()" class="text-slate-400 hover:text-slate-600"><i data-lucide="x" class="w-5 h-5"></i></button>
+      </div>
+
+      <p class="text-xs text-slate-500 leading-relaxed">
+        Paste your Firebase Web App configuration credentials below. If placeholders are kept, QuickBite automatically uses its zero-lag local reactive data engine!
+      </p>
+
+      <div class="space-y-3 text-xs">
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">API Key</label>
+          <input type="text" id="cfg-apiKey" class="w-full px-3 py-2 rounded-xl border border-slate-300 font-mono text-xs focus:ring-2 focus:ring-orange-500 focus:outline-none" />
+        </div>
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Database URL (Realtime DB)</label>
+          <input type="text" id="cfg-databaseURL" class="w-full px-3 py-2 rounded-xl border border-slate-300 font-mono text-xs focus:ring-2 focus:ring-orange-500 focus:outline-none" />
+        </div>
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Project ID</label>
+          <input type="text" id="cfg-projectId" class="w-full px-3 py-2 rounded-xl border border-slate-300 font-mono text-xs focus:ring-2 focus:ring-orange-500 focus:outline-none" />
+        </div>
+      </div>
+
+      <div class="flex justify-end gap-2 pt-3 border-t border-slate-100">
+        <button onclick="window.closeFirebaseConfigModal()" class="py-2 px-4 text-xs font-bold text-slate-600 hover:bg-slate-100 rounded-xl transition">Cancel</button>
+        <button onclick="window.saveFirebaseConfig()" class="py-2 px-4 text-xs font-bold bg-orange-600 hover:bg-orange-700 text-white rounded-xl shadow-md transition">Save & Reconnect</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. SHOP MENU MODAL (For Customer Ordering) -->
+  <div id="modal-shop-menu" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] flex flex-col shadow-2xl border border-slate-200 overflow-hidden">
+      
+      <!-- Modal Header -->
+      <div id="menu-modal-header" class="p-6 bg-slate-900 text-white flex items-center justify-between">
+        <div>
+          <h3 id="menu-modal-shop-name" class="text-xl font-extrabold">Shop Name</h3>
+          <p class="text-xs text-slate-400 mt-0.5">Select menu items and checkout via Cash on Delivery</p>
+        </div>
+        <button onclick="window.closeShopMenuModal()" class="text-slate-400 hover:text-white"><i data-lucide="x" class="w-6 h-6"></i></button>
+      </div>
+
+      <!-- Menu Items List -->
+      <div id="menu-modal-items-container" class="p-6 overflow-y-auto custom-scrollbar flex-1 space-y-4">
+        <!-- Dynamically rendered items -->
+      </div>
+
+      <!-- Checkout Bar Footer -->
+      <div class="p-4 bg-slate-50 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div>
+          <div class="text-xs font-bold text-slate-500">Order COD Total:</div>
+          <div id="menu-modal-total-price" class="text-xl font-black text-slate-900">$0.00</div>
+        </div>
+
+        <button onclick="window.initiateCustomerCheckout()" id="menu-modal-checkout-btn" disabled class="w-full sm:w-auto py-3 px-6 bg-orange-600 hover:bg-orange-700 disabled:bg-slate-300 text-white font-bold text-sm rounded-xl shadow-md transition">
+          Proceed to COD Checkout
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- 3. SMS / OTP PHONE VERIFICATION POPUP MODAL -->
+  <div id="modal-otp-verification" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-sm w-full p-6 shadow-2xl border border-slate-200 text-center space-y-4">
+      <div class="w-12 h-12 mx-auto rounded-2xl bg-orange-100 text-orange-600 flex items-center justify-center font-bold">
+        <i data-lucide="smartphone" class="w-6 h-6"></i>
+      </div>
+
+      <div>
+        <h3 class="text-lg font-extrabold text-slate-900">COD Phone Verification</h3>
+        <p class="text-xs text-slate-500 mt-1">Enter 4-digit SMS OTP sent to <span id="otp-phone-num" class="font-bold text-slate-800">+1 555-0199</span></p>
+        <div class="text-[11px] font-bold text-orange-600 mt-1 bg-orange-50 py-1 px-2 rounded-lg inline-block">Test Code: 1234</div>
+      </div>
+
+      <div class="flex justify-center gap-2">
+        <input type="text" maxlength="1" id="otp-1" class="w-10 h-12 text-center text-lg font-bold border border-slate-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:outline-none" />
+        <input type="text" maxlength="1" id="otp-2" class="w-10 h-12 text-center text-lg font-bold border border-slate-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:outline-none" />
+        <input type="text" maxlength="1" id="otp-3" class="w-10 h-12 text-center text-lg font-bold border border-slate-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:outline-none" />
+        <input type="text" maxlength="1" id="otp-4" class="w-10 h-12 text-center text-lg font-bold border border-slate-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:outline-none" />
+      </div>
+
+      <div id="otp-error-msg" class="hidden text-xs text-rose-600 font-bold">Invalid Code! Use 1234</div>
+
+      <div class="flex gap-2 pt-2">
+        <button onclick="window.closeOtpModal()" class="w-1/2 py-2.5 text-xs font-bold text-slate-600 bg-slate-100 hover:bg-slate-200 rounded-xl transition">Cancel</button>
+        <button onclick="window.verifyOtpAndPlaceOrder()" class="w-1/2 py-2.5 text-xs font-bold bg-orange-600 hover:bg-orange-700 text-white rounded-xl shadow-md transition">Verify & Place COD</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. IN-APP LIVE CHAT MODAL (Customer & Shopkeeper) -->
+  <div id="modal-chat" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-lg w-full h-[520px] flex flex-col shadow-2xl border border-slate-200 overflow-hidden">
+      
+      <!-- Chat Header -->
+      <div class="p-4 bg-slate-900 text-white flex items-center justify-between border-b border-slate-800">
+        <div class="flex items-center gap-3">
+          <div class="w-9 h-9 rounded-xl bg-orange-500 text-white flex items-center justify-center font-bold">
+            <i data-lucide="message-square" class="w-5 h-5"></i>
+          </div>
+          <div>
+            <h4 id="chat-modal-title" class="text-sm font-bold">Order Live Messenger</h4>
+            <p id="chat-modal-subtitle" class="text-[10px] text-slate-400">Direct Customer &amp; Shopkeeper line</p>
+          </div>
+        </div>
+        <button onclick="window.closeChatModal()" class="text-slate-400 hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
+      </div>
+
+      <!-- Messages Body -->
+      <div id="chat-messages-container" class="flex-1 p-4 overflow-y-auto custom-scrollbar space-y-3 bg-slate-50">
+        <!-- Messages rendered here -->
+      </div>
+
+      <!-- Send Input -->
+      <form onsubmit="window.sendChatMessage(event)" class="p-3 bg-white border-t border-slate-200 flex items-center gap-2">
+        <input type="text" id="chat-input" placeholder="Type a message..." required class="flex-1 px-4 py-2.5 rounded-xl border border-slate-300 text-xs focus:ring-2 focus:ring-orange-500 focus:outline-none" />
+        <button type="submit" class="py-2.5 px-4 bg-orange-600 hover:bg-orange-700 text-white font-bold text-xs rounded-xl shadow-md transition flex items-center gap-1">
+          <span>Send</span>
+          <i data-lucide="send" class="w-3.5 h-3.5"></i>
+        </button>
+      </form>
+
+    </div>
+  </div>
+
+  <!-- 5. CART MODIFIER MODAL (Inside Shopkeeper View to edit items/quantities) -->
+  <div id="modal-edit-cart" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl border border-slate-200 space-y-4">
+      <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+        <h3 class="font-extrabold text-slate-900 text-base flex items-center gap-2">
+          <i data-lucide="edit-3" class="w-4 h-4 text-orange-600"></i>
+          <span>Modify Customer Cart Bill</span>
+        </h3>
+        <button onclick="window.closeEditCartModal()" class="text-slate-400 hover:text-slate-600"><i data-lucide="x" class="w-5 h-5"></i></button>
+      </div>
+
+      <p class="text-xs text-slate-500">
+        Adjust quantities or remove out-of-stock items. The updated COD bill will sync instantly with the customer!
+      </p>
+
+      <div id="edit-cart-items-container" class="space-y-3 max-h-60 overflow-y-auto custom-scrollbar pr-1">
+        <!-- Dynamically rendered cart items with +/- buttons -->
+      </div>
+
+      <div class="pt-3 border-t border-slate-100 flex items-center justify-between font-bold text-sm">
+        <span>New Updated COD Total:</span>
+        <span id="edit-cart-new-total" class="text-orange-600">$0.00</span>
+      </div>
+
+      <div class="flex justify-end gap-2 pt-2">
+        <button onclick="window.closeEditCartModal()" class="py-2 px-4 text-xs font-bold text-slate-600 bg-slate-100 hover:bg-slate-200 rounded-xl transition">Cancel</button>
+        <button onclick="window.saveCartModifications()" class="py-2 px-4 text-xs font-bold bg-orange-600 hover:bg-orange-700 text-white rounded-xl shadow-md transition">Update & Notify Customer</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 6. MENU MANAGER MODAL (For Shopkeeper) -->
+  <div id="modal-menu-manager" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-xl w-full max-h-[85vh] flex flex-col shadow-2xl border border-slate-200 overflow-hidden">
+      <div class="p-5 bg-slate-900 text-white flex items-center justify-between">
+        <h3 class="font-extrabold text-lg">Merchant Menu Manager</h3>
+        <button onclick="window.closeMenuManagerModal()" class="text-slate-400 hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
+      </div>
+
+      <div class="p-6 overflow-y-auto custom-scrollbar flex-1 space-y-6">
+        <!-- Add New Item Form -->
+        <form onsubmit="window.handleAddMenuItem(event)" class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-3">
+          <h4 class="text-xs font-extrabold text-slate-800 uppercase tracking-wider">Add New Dish</h4>
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label class="block text-[11px] font-bold text-slate-600 mb-1">Item Name</label>
+              <input type="text" id="menu-add-name" required placeholder="Truffle Pizza" class="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs focus:outline-none focus:ring-2 focus:ring-orange-500" />
+            </div>
+            <div>
+              <label class="block text-[11px] font-bold text-slate-600 mb-1">Price ($)</label>
+              <input type="number" step="0.50" id="menu-add-price" required placeholder="14.50" class="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs focus:outline-none focus:ring-2 focus:ring-orange-500" />
+            </div>
+          </div>
+          <div>
+            <label class="block text-[11px] font-bold text-slate-600 mb-1">Description</label>
+            <input type="text" id="menu-add-desc" placeholder="Fresh basil, mozzarella, truffle oil" class="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs focus:outline-none focus:ring-2 focus:ring-orange-500" />
+          </div>
+          <button type="submit" class="w-full py-2 bg-orange-600 hover:bg-orange-700 text-white font-bold text-xs rounded-xl transition">Add to Menu</button>
+        </form>
+
+        <!-- Current Menu List -->
+        <div>
+          <h4 class="text-xs font-extrabold text-slate-800 uppercase tracking-wider mb-3">Current Active Dishes</h4>
+          <div id="menu-manager-items-list" class="space-y-2">
+            <!-- Items rendered here -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ========================================================= -->
+  <!-- MAIN JS MODULE (FIREBASE V10 SDK + CORE APP LOGIC) -->
+  <!-- ========================================================= -->
+  <script type="module">
+    // -------------------------------------------------------------
+    // 1. FIREBASE CONFIGURATION PLACEHOLDER
+    // -------------------------------------------------------------
+    const firebaseConfig = {
+      apiKey: "YOUR_API_KEY",
+      authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+      databaseURL: "https://YOUR_PROJECT_ID-default-rtdb.firebaseio.com",
+      projectId: "YOUR_PROJECT_ID",
+      storageBucket: "YOUR_PROJECT_ID.appspot.com",
+      messagingSenderId: "123456789012",
+      appId: "1:123456789012:web:abcdef1234567890"
+    };
+
+    // Import Firebase SDKs dynamically from CDN
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
+    import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js';
+    import { getDatabase, ref, set, get, child, update, onValue, push, remove } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js';
+
+    // -------------------------------------------------------------
+    // 2. DUAL ENGINE DATA STATE (Local Fallback + Firebase Realtime)
+    // -------------------------------------------------------------
+    let isFirebaseActive = false;
+    let app, auth, database;
+
+    // In-memory data store for fallback/demo mode
+    const defaultData = {
+      users: {
+        "cust_1": { uid: "cust_1", name: "Alex Johnson", email: "customer@quickbite.com", phone: "+1 555-0199", role: "customer", status: "approved" },
+        "shop_1": { uid: "shop_1", name: "Pizza Bella & Pasta", email: "pizzabella@quickbite.com", phone: "+1 555-0288", role: "shopkeeper", status: "approved" },
+        "shop_2": { uid: "shop_2", name: "Burger Craft & Grille", email: "burgercraft@quickbite.com", phone: "+1 555-0377", role: "shopkeeper", status: "approved" },
+        "rider_1": { uid: "rider_1", name: "David Miller (Rider)", email: "david@quickbite.com", phone: "+1 555-0466", role: "rider", status: "approved" },
+        "admin_1": { uid: "admin_1", name: "City System Admin", email: "admin@quickbite.com", phone: "+1 555-0000", role: "admin", status: "approved" }
+      },
+      shops: {
+        "shop_1": {
+          shopName: "Pizza Bella & Pasta",
+          autoReassignEnabled: true,
+          isOpen: true,
+          cuisine: "Italian • Pizza",
+          rating: 4.8,
+          menuItems: [
+            { id: "m1", name: "Woodfired Pepperoni", price: 16.50, description: "Crispy pepperoni, fior di latte, spicy honey drizzle", image: "https://images.unsplash.com/photo-1628840042765-356cda07504e?w=300" },
+            { id: "m2", name: "Truffle Mushroom Fettuccine", price: 18.00, description: "Handmade pasta, wild mushrooms, creamy truffle sauce", image: "https://images.unsplash.com/photo-1621996346565-e3d5d6281273?w=300" },
+            { id: "m3", name: "Garlic Herb Bread Knots", price: 6.50, description: "Baked warm with garlic butter and marinara dip", image: "https://images.unsplash.com/photo-1573140247632-f8fd74997d5c?w=300" }
+          ]
+        },
+        "shop_2": {
+          shopName: "Burger Craft & Grille",
+          autoReassignEnabled: true,
+          isOpen: true,
+          cuisine: "American • Burgers",
+          rating: 4.7,
+          menuItems: [
+            { id: "m4", name: "Double Smash Cheeseburger", price: 13.50, description: "Angus beef patties, cheddar, secret sauce, brioche", image: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=300" },
+            { id: "m5", name: "Crispy Truffle Fries", price: 5.50, description: "Seasoned fries with parmesan and garlic aioli", image: "https://images.unsplash.com/photo-1576107232684-1279f3908594?w=300" }
+          ]
+        }
+      },
+      riders: {
+        "rider_1": { isOnline: true, maxRangeKm: 8, deliveryFee: 3.00, unsettledCash: 18.50 }
+      },
+      orders: {
+        "ord_101": {
+          id: "ord_101",
+          customerUid: "cust_1",
+          customerName: "Alex Johnson",
+          customerPhone: "+1 555-0199",
+          customerAddress: "742 Evergreen Terrace, Apt 4B",
+          shopUid: "shop_1",
+          shopName: "Pizza Bella & Pasta",
+          riderUid: "rider_1",
+          riderName: "David Miller",
+          items: [
+            { id: "m1", name: "Woodfired Pepperoni", price: 16.50, qty: 1 },
+            { id: "m3", name: "Garlic Herb Bread Knots", price: 6.50, qty: 1 }
+          ],
+          foodCost: 23.00,
+          deliveryFee: 3.00,
+          totalCod: 26.00,
+          status: "Preparing", // Pending, Accepted, Preparing, Out for Delivery, Delivered, Rejected
+          timerTarget: Date.now() + (25 * 60 * 1000), // 25 mins remaining
+          createdAt: Date.now() - (5 * 60 * 1000)
+        }
+      },
+      messages: {
+        "ord_101": [
+          { msgId: "msg_1", senderRole: "customer", senderName: "Alex Johnson", text: "Hi, please make it extra crispy!", timestamp: Date.now() - (4 * 60 * 1000) },
+          { msgId: "msg_2", senderRole: "shopkeeper", senderName: "Pizza Bella", text: "Got it! Baking it right now.", timestamp: Date.now() - (3 * 60 * 1000) }
+        ]
+      }
+    };
+
+    // Load initial stored DB or default
+    let localDB = JSON.parse(localStorage.getItem('quickbite_db')) || defaultData;
+
+    function saveLocalDB() {
+      localStorage.setItem('quickbite_db', JSON.stringify(localDB));
+      notifyDataListeners();
+    }
+
+    const dataListeners = [];
+    function subscribeData(callback) {
+      dataListeners.push(callback);
+      callback(localDB);
+    }
+    function notifyDataListeners() {
+      dataListeners.forEach(cb => cb(localDB));
+    }
+
+    // Attempt Firebase Init
+    function initFirebaseEngine() {
+      const savedCfg = JSON.parse(localStorage.getItem('quickbite_firebase_cfg')) || firebaseConfig;
+      
+      if (savedCfg.apiKey && savedCfg.apiKey !== "YOUR_API_KEY") {
+        try {
+          app = initializeApp(savedCfg);
+          auth = getAuth(app);
+          database = getDatabase(app);
+          isFirebaseActive = true;
+          document.getElementById('db-status-text').innerText = "Firebase Realtime DB Active";
+          document.getElementById('db-status-dot').className = "w-2 h-2 rounded-full bg-emerald-500 pulse-ring";
+          
+          // Attach RTDB listener
+          onValue(ref(database), (snapshot) => {
+            const val = snapshot.val();
+            if (val) {
+              localDB = val;
+              notifyDataListeners();
+            }
+          });
+        } catch (err) {
+          console.warn("Firebase Init fallback to demo engine:", err);
+          useLocalEngine();
+        }
+      } else {
+        useLocalEngine();
+      }
+    }
+
+    function useLocalEngine() {
+      isFirebaseActive = false;
+      document.getElementById('db-status-text').innerText = "Demo Engine Active";
+      document.getElementById('db-status-dot').className = "w-2 h-2 rounded-full bg-amber-500 pulse-ring";
+      notifyDataListeners();
+    }
+
+    // -------------------------------------------------------------
+    // 3. CURRENT SESSION STATE
+    // -------------------------------------------------------------
+    let currentUser = JSON.parse(localStorage.getItem('quickbite_user')) || null;
+    let currentAuthRoleTab = 'customer';
+    let currentAuthMode = 'login';
+    let activeSelectedShopUid = null;
+    let customerCart = []; // [{ item, qty }]
+    let activeChatOrderId = null;
+
+    // -------------------------------------------------------------
+    // 4. AUDIO SYNTH SOUND ALERTS
+    // -------------------------------------------------------------
+    function playNewOrderSound() {
+      try {
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(587.33, audioCtx.currentTime); // D5
+        osc.frequency.exponentialRampToValueAtTime(880, audioCtx.currentTime + 0.3); // A5
+        gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.5);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start();
+        osc.stop(audioCtx.currentTime + 0.5);
+      } catch (e) {
+        console.log("Audio alert suppressed");
+      }
+    }
+
+    // -------------------------------------------------------------
+    // 5. LIFECYCLE & RENDER ROUTER
+    // -------------------------------------------------------------
+    window.addEventListener('DOMContentLoaded', () => {
+      initFirebaseEngine();
+      lucide.createIcons();
+
+      // Listen for data updates
+      subscribeData(() => {
+        renderCurrentView();
+      });
+
+      // Synchronized 1s timer loop
+      setInterval(() => {
+        updateActiveTimers();
+        checkAutoReassigns();
+      }, 1000);
+
+      // Auto restore session
+      if (currentUser) {
+        showDashboardView();
+      } else {
+        showAuthView();
+      }
+    });
+
+    function showAuthView() {
+      document.getElementById('auth-section').classList.remove('hidden');
+      document.getElementById('dashboards-container').classList.add('hidden');
+      document.getElementById('user-header-profile').classList.add('hidden');
+    }
+
+    function showDashboardView() {
+      document.getElementById('auth-section').classList.add('hidden');
+      document.getElementById('dashboards-container').classList.remove('hidden');
+      
+      // Update Header
+      document.getElementById('user-header-profile').classList.remove('hidden');
+      document.getElementById('user-header-profile').classList.add('flex');
+      document.getElementById('user-header-name').innerText = currentUser.name || currentUser.email;
+      document.getElementById('user-header-role').innerText = currentUser.role;
+
+      // Hide all role views
+      ['customer', 'shopkeeper', 'rider', 'admin'].forEach(r => {
+        document.getElementById(`view-${r}`).classList.add('hidden');
+      });
+
+      // Show specific role view
+      const activeView = document.getElementById(`view-${currentUser.role}`);
+      if (activeView) {
+        activeView.classList.remove('hidden');
+      }
+
+      renderCurrentView();
+    }
+
+    function renderCurrentView() {
+      if (!currentUser) return;
+
+      if (currentUser.role === 'customer') {
+        renderCustomerView();
+      } else if (currentUser.role === 'shopkeeper') {
+        renderShopkeeperView();
+      } else if (currentUser.role === 'rider') {
+        renderRiderView();
+      } else if (currentUser.role === 'admin') {
+        renderAdminView();
+      }
+
+      lucide.createIcons();
+    }
+
+    // -------------------------------------------------------------
+    // 6. AUTHENTICATION & DEMO LOGINS
+    // -------------------------------------------------------------
+    window.setAuthRoleTab = function(role) {
+      currentAuthRoleTab = role;
+      document.getElementById('auth-role').value = role;
+      
+      ['customer', 'shopkeeper', 'rider', 'admin'].forEach(r => {
+        const tab = document.getElementById(`tab-role-${r}`);
+        if (r === role) {
+          tab.className = "py-2.5 rounded-xl bg-white text-orange-600 shadow-xs transition";
+        } else {
+          tab.className = "py-2.5 rounded-xl hover:text-slate-900 transition text-slate-500";
+        }
+      });
+
+      document.getElementById('auth-form-title').innerText = `${role.charAt(0).toUpperCase() + role.slice(1)} ${currentAuthMode === 'login' ? 'Login' : 'Sign Up'}`;
+    };
+
+    window.toggleAuthMode = function() {
+      currentAuthMode = currentAuthMode === 'login' ? 'signup' : 'login';
+      document.getElementById('auth-mode').value = currentAuthMode;
+
+      const extraFields = document.getElementById('signup-extra-fields');
+      const toggleBtn = document.getElementById('auth-toggle-btn');
+      const submitBtn = document.getElementById('auth-submit-btn');
+
+      if (currentAuthMode === 'signup') {
+        extraFields.classList.remove('hidden');
+        toggleBtn.innerText = 'Already registered? Log In';
+        submitBtn.innerText = 'Create Account';
+      } else {
+        extraFields.classList.add('hidden');
+        toggleBtn.innerText = 'Need an account? Sign Up';
+        submitBtn.innerText = 'Sign In';
+      }
+
+      window.setAuthRoleTab(currentAuthRoleTab);
+    };
+
+    window.demoLogin = function(role) {
+      // Find matching user
+      const userKey = Object.keys(localDB.users).find(k => localDB.users[k].role === role);
+      if (userKey) {
+        currentUser = localDB.users[userKey];
+        localStorage.setItem('quickbite_user', JSON.stringify(currentUser));
+        showDashboardView();
+      }
+    };
+
+    window.handleAuthSubmit = function(e) {
+      e.preventDefault();
+      const email = document.getElementById('auth-email').value;
+      const password = document.getElementById('auth-password').value;
+      const role = document.getElementById('auth-role').value;
+      const name = document.getElementById('auth-name').value || email.split('@')[0];
+      const phone = document.getElementById('auth-phone').value || "+1 555-0100";
+
+      if (currentAuthMode === 'signup') {
+        const uid = 'user_' + Date.now();
+        const newUser = {
+          uid,
+          email,
+          name,
+          phone,
+          role,
+          status: 'approved',
+          createdAt: Date.now()
+        };
+
+        localDB.users[uid] = newUser;
+
+        // If shopkeeper, create shop profile
+        if (role === 'shopkeeper') {
+          localDB.shops[uid] = {
+            shopName: name + " Kitchen",
+            autoReassignEnabled: true,
+            isOpen: true,
+            cuisine: "Gourmet",
+            rating: 5.0,
+            menuItems: [
+              { id: 'm_' + Date.now(), name: "Signature Dish", price: 12.00, description: "Chef's daily special", image: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=300" }
+            ]
+          };
+        }
+
+        // If rider, create rider profile
+        if (role === 'rider') {
+          localDB.riders[uid] = {
+            isOnline: true,
+            maxRangeKm: 5,
+            deliveryFee: 2.50,
+            unsettledCash: 0.00
+          };
+        }
+
+        saveLocalDB();
+        currentUser = newUser;
+      } else {
+        // Login Flow
+        const found = Object.values(localDB.users).find(u => u.email === email && u.role === role);
+        if (found) {
+          currentUser = found;
+        } else {
+          // Auto create fallback for smooth testing
+          const uid = 'user_' + Date.now();
+          currentUser = { uid, email, name, phone, role, status: 'approved' };
+          localDB.users[uid] = currentUser;
+          saveLocalDB();
+        }
+      }
+
+      localStorage.setItem('quickbite_user', JSON.stringify(currentUser));
+      showDashboardView();
+    };
+
+    window.appLogout = function() {
+      currentUser = null;
+      localStorage.removeItem('quickbite_user');
+      showAuthView();
+    };
+
+
+    // -------------------------------------------------------------
+    // 7. CUSTOMER DASHBOARD CONTROLLERS
+    // -------------------------------------------------------------
+    function renderCustomerView() {
+      // 1. Check for Active Order
+      const activeOrder = Object.values(localDB.orders).find(o => 
+        o.customerUid === currentUser.uid && 
+        ['Pending', 'Accepted', 'Preparing', 'Out for Delivery'].includes(o.status)
+      );
+
+      const banner = document.getElementById('customer-active-order-banner');
+      if (activeOrder) {
+        banner.classList.remove('hidden');
+        document.getElementById('cust-active-id').innerText = activeOrder.id.slice(-4);
+        document.getElementById('cust-active-shop-title').innerText = activeOrder.shopName;
+        document.getElementById('cust-active-status-badge').innerText = activeOrder.status;
+        
+        const itemsTxt = activeOrder.items.map(i => `${i.qty}x ${i.name}`).join(', ');
+        document.getElementById('cust-active-items-summary').innerText = `${itemsTxt} • COD Total: $${activeOrder.totalCod.toFixed(2)}`;
+
+        // Stepper Highlights
+        const statuses = ['Pending', 'Accepted', 'Preparing', 'Out for Delivery', 'Delivered'];
+        const currentIdx = statuses.indexOf(activeOrder.status);
+
+        ['pending', 'accepted', 'preparing', 'delivering', 'delivered'].forEach((stepKey, idx) => {
+          const el = document.getElementById(`step-${stepKey}`);
+          if (idx <= currentIdx) {
+            el.className = "space-y-1 opacity-100 font-bold text-orange-400";
+          } else {
+            el.className = "space-y-1 opacity-40";
+          }
+        });
+
+      } else {
+        banner.classList.add('hidden');
+      }
+
+      // 2. Render Shop Directory
+      window.renderShopDirectory();
+    }
+
+    window.renderShopDirectory = function() {
+      const query = (document.getElementById('cust-search-input')?.value || '').toLowerCase();
+      const grid = document.getElementById('shops-grid');
+      grid.innerHTML = '';
+
+      Object.keys(localDB.shops).forEach(shopUid => {
+        const shop = localDB.shops[shopUid];
+        if (query && !shop.shopName.toLowerCase().includes(query) && !shop.cuisine.toLowerCase().includes(query)) {
+          return;
+        }
+
+        const card = document.createElement('div');
+        card.className = "bg-white rounded-2xl border border-slate-200 shadow-xs hover:shadow-md transition overflow-hidden flex flex-col justify-between";
+        card.innerHTML = `
+          <div class="p-6">
+            <div class="flex items-start justify-between">
+              <div>
+                <span class="text-[10px] font-bold uppercase tracking-wider text-orange-600 bg-orange-50 px-2 py-0.5 rounded-md">${shop.cuisine || 'Restaurant'}</span>
+                <h3 class="text-lg font-extrabold text-slate-900 mt-1">${shop.shopName}</h3>
+              </div>
+              <span class="flex items-center gap-1 text-xs font-bold text-amber-600 bg-amber-50 px-2 py-1 rounded-lg">
+                <i data-lucide="star" class="w-3.5 h-3.5 fill-amber-400 text-amber-400"></i>
+                ${shop.rating || 4.8}
+              </span>
+            </div>
+            <p class="text-xs text-slate-500 mt-2">${shop.menuItems?.length || 0} items available • Cash on Delivery</p>
+          </div>
+
+          <div class="p-4 bg-slate-50 border-t border-slate-100 flex items-center justify-between">
+            <span class="text-xs font-bold text-emerald-600 flex items-center gap-1">
+              <i data-lucide="shield-check" class="w-4 h-4"></i> COD Verified
+            </span>
+            <button onclick="window.openShopMenuModal('${shopUid}')" class="py-2 px-4 bg-slate-900 hover:bg-orange-600 text-white font-bold text-xs rounded-xl transition flex items-center gap-1.5">
+              <span>View Menu</span>
+              <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+            </button>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+
+      lucide.createIcons();
+    };
+
+    window.openShopMenuModal = function(shopUid) {
+      activeSelectedShopUid = shopUid;
+      customerCart = [];
+      const shop = localDB.shops[shopUid];
+
+      document.getElementById('menu-modal-shop-name').innerText = shop.shopName;
+      const itemsContainer = document.getElementById('menu-modal-items-container');
+      itemsContainer.innerHTML = '';
+
+      (shop.menuItems || []).forEach(item => {
+        const row = document.createElement('div');
+        row.className = "flex items-center justify-between p-4 bg-slate-50 rounded-2xl border border-slate-200 gap-4";
+        row.innerHTML = `
+          <div class="flex items-center gap-3">
+            <img src="${item.image || 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=300'}" class="w-16 h-16 rounded-xl object-cover border border-slate-200" />
+            <div>
+              <h4 class="font-bold text-slate-900 text-sm">${item.name}</h4>
+              <p class="text-xs text-slate-500">${item.description || ''}</p>
+              <div class="font-extrabold text-orange-600 text-sm mt-1">$${item.price.toFixed(2)}</div>
+            </div>
+          </div>
+
+          <div class="flex items-center gap-2 bg-white border border-slate-300 rounded-xl p-1">
+            <button onclick="window.updateCustomerCart('${item.id}', -1)" class="w-7 h-7 rounded-lg bg-slate-100 hover:bg-slate-200 flex items-center justify-center font-bold text-slate-700">-</button>
+            <span id="cart-qty-${item.id}" class="w-6 text-center text-xs font-bold">0</span>
+            <button onclick="window.updateCustomerCart('${item.id}', 1)" class="w-7 h-7 rounded-lg bg-orange-600 hover:bg-orange-700 flex items-center justify-center font-bold text-white">+</button>
+          </div>
+        `;
+        itemsContainer.appendChild(row);
+      });
+
+      window.updateMenuTotalDisplay();
+      document.getElementById('modal-shop-menu').classList.remove('hidden');
+      lucide.createIcons();
+    };
+
+    window.closeShopMenuModal = function() {
+      document.getElementById('modal-shop-menu').classList.add('hidden');
+    };
+
+    window.updateCustomerCart = function(itemId, delta) {
+      const shop = localDB.shops[activeSelectedShopUid];
+      const item = shop.menuItems.find(i => i.id === itemId);
+      if (!item) return;
+
+      let exist = customerCart.find(c => c.item.id === itemId);
+      if (!exist) {
+        if (delta > 0) {
+          exist = { item, qty: delta };
+          customerCart.push(exist);
+        }
+      } else {
+        exist.qty += delta;
+        if (exist.qty <= 0) {
+          customerCart = customerCart.filter(c => c.item.id !== itemId);
+        }
+      }
+
+      document.getElementById(`cart-qty-${itemId}`).innerText = exist ? exist.qty : 0;
+      window.updateMenuTotalDisplay();
+    };
+
+    window.updateMenuTotalDisplay = function() {
+      const foodTotal = customerCart.reduce((sum, c) => sum + (c.item.price * c.qty), 0);
+      const deliveryFee = 3.00; // Standard base rate
+      const totalCod = foodTotal > 0 ? foodTotal + deliveryFee : 0;
+
+      document.getElementById('menu-modal-total-price').innerText = `$${totalCod.toFixed(2)} COD`;
+      
+      const btn = document.getElementById('menu-modal-checkout-btn');
+      btn.disabled = customerCart.length === 0;
+    };
+
+    window.initiateCustomerCheckout = function() {
+      document.getElementById('modal-shop-menu').classList.add('hidden');
+      document.getElementById('modal-otp-verification').classList.remove('hidden');
+      document.getElementById('otp-phone-num').innerText = currentUser.phone || "+1 555-0199";
+    };
+
+    window.closeOtpModal = function() {
+      document.getElementById('modal-otp-verification').classList.add('hidden');
+    };
+
+    window.verifyOtpAndPlaceOrder = function() {
+      // Create new COD Order
+      const shop = localDB.shops[activeSelectedShopUid];
+      const foodCost = customerCart.reduce((sum, c) => sum + (c.item.price * c.qty), 0);
+      const deliveryFee = 3.00;
+      const totalCod = foodCost + deliveryFee;
+
+      const orderId = 'ord_' + Date.now();
+      const newOrder = {
+        id: orderId,
+        customerUid: currentUser.uid,
+        customerName: currentUser.name,
+        customerPhone: currentUser.phone,
+        customerAddress: "742 Evergreen Terrace, Apt 4B",
+        shopUid: activeSelectedShopUid,
+        shopName: shop.shopName,
+        riderUid: null,
+        riderName: "Searching Rider...",
+        items: customerCart.map(c => ({ id: c.item.id, name: c.item.name, price: c.item.price, qty: c.qty })),
+        foodCost,
+        deliveryFee,
+        totalCod,
+        status: 'Pending',
+        timerTarget: Date.now() + (30 * 60 * 1000), // 30 mins
+        createdAt: Date.now()
+      };
+
+      localDB.orders[orderId] = newOrder;
+      localDB.messages[orderId] = [
+        { msgId: 'm1', senderRole: 'system', senderName: 'QuickBite System', text: 'Order placed via Cash on Delivery (COD). Awaiting shopkeeper approval.', timestamp: Date.now() }
+      ];
+
+      saveLocalDB();
+      playNewOrderSound();
+
+      window.closeOtpModal();
+      customerCart = [];
+      renderCurrentView();
+    };
+
+    window.rejectDamagedParcel = function() {
+      const activeOrder = Object.values(localDB.orders).find(o => 
+        o.customerUid === currentUser.uid && 
+        ['Pending', 'Accepted', 'Preparing', 'Out for Delivery'].includes(o.status)
+      );
+
+      if (activeOrder) {
+        if (confirm("Reject food delivery due to damage? Total COD will be set to $0.00.")) {
+          activeOrder.status = 'Rejected (Food Damaged)';
+          activeOrder.totalCod = 0.00;
+          saveLocalDB();
+          renderCurrentView();
+        }
+      }
+    };
+
+
+    // -------------------------------------------------------------
+    // 8. SHOPKEEPER DASHBOARD CONTROLLERS
+    // -------------------------------------------------------------
+    function renderShopkeeperView() {
+      const myShopUid = currentUser.uid;
+      const myShop = localDB.shops[myShopUid] || { shopName: currentUser.name + " Kitchen", autoReassignEnabled: true };
+      
+      document.getElementById('shopkeeper-store-name').innerText = myShop.shopName;
+      document.getElementById('auto-reassign-toggle').checked = myShop.autoReassignEnabled !== false;
+
+      const ordersList = document.getElementById('shopkeeper-orders-list');
+      ordersList.innerHTML = '';
+
+      const shopOrders = Object.values(localDB.orders).filter(o => o.shopUid === myShopUid || o.shopUid === 'shop_1');
+
+      if (shopOrders.length === 0) {
+        ordersList.innerHTML = `<div class="p-8 text-center bg-white rounded-2xl border border-slate-200 text-slate-400 text-xs">No orders assigned yet.</div>`;
+        return;
+      }
+
+      shopOrders.forEach(order => {
+        const card = document.createElement('div');
+        card.className = "bg-white rounded-2xl p-6 border border-slate-200 shadow-xs space-y-4";
+        
+        const itemsDetail = order.items.map(i => `${i.qty}x ${i.name} ($${i.price.toFixed(2)})`).join(', ');
+
+        // Render Available Riders for Assignment
+        const activeRiders = Object.keys(localDB.riders).map(rUid => {
+          const user = localDB.users[rUid] || { name: 'Rider Dave' };
+          const rider = localDB.riders[rUid];
+          return { rUid, name: user.name, fee: rider.deliveryFee, range: rider.maxRangeKm, online: rider.isOnline };
+        }).filter(r => r.online);
+
+        let riderSelectHTML = ``;
+        if (order.status === 'Accepted' || order.status === 'Preparing') {
+          riderSelectHTML = `
+            <div class="mt-3 pt-3 border-t border-slate-100 flex items-center justify-between gap-3">
+              <span class="text-xs font-bold text-slate-700">Dispatch Nearby Rider:</span>
+              <div class="flex items-center gap-2">
+                <select id="rider-select-${order.id}" class="px-3 py-1.5 rounded-xl border border-slate-300 text-xs font-bold focus:outline-none">
+                  ${activeRiders.map(r => `<option value="${r.rUid}">${r.name} ($${r.fee.toFixed(2)} fee • ${r.range}km)</option>`).join('')}
+                </select>
+                <button onclick="window.assignRiderToOrder('${order.id}')" class="py-1.5 px-3 bg-orange-600 hover:bg-orange-700 text-white font-bold text-xs rounded-xl shadow-xs transition">
+                  Assign Rider
+                </button>
+              </div>
+            </div>
+          `;
+        } else if (order.status === 'Out for Delivery') {
+          riderSelectHTML = `
+            <div class="mt-3 pt-3 border-t border-slate-100 flex items-center justify-between text-xs">
+              <span class="font-bold text-emerald-600 flex items-center gap-1">
+                <i data-lucide="check-circle-2" class="w-4 h-4"></i> Rider ${order.riderName} En Route
+              </span>
+              <button onclick="window.reassignRider('${order.id}')" class="py-1 px-2.5 text-[11px] font-bold text-slate-600 bg-slate-100 hover:bg-slate-200 rounded-lg transition">
+                Re-assign Rider
+              </button>
+            </div>
+          `;
+        }
+
+        card.innerHTML = `
+          <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 pb-3 border-b border-slate-100">
+            <div>
+              <div class="flex items-center gap-2">
+                <span class="font-extrabold text-sm text-slate-900">Order #${order.id.slice(-4)}</span>
+                <span class="px-2.5 py-0.5 rounded-full bg-orange-100 text-orange-700 font-bold text-[10px] uppercase">${order.status}</span>
+              </div>
+              <p class="text-xs text-slate-500 mt-0.5">Customer: <span class="font-bold text-slate-800">${order.customerName}</span> (${order.customerPhone})</p>
+            </div>
+
+            <div class="text-right">
+              <div class="text-xs text-slate-400 font-bold">Total COD Bill</div>
+              <div class="text-lg font-black text-slate-900">$${order.totalCod.toFixed(2)}</div>
+            </div>
+          </div>
+
+          <div class="text-xs text-slate-700 bg-slate-50 p-3 rounded-xl border border-slate-100">
+            <span class="font-bold text-slate-900">Items:</span> ${itemsDetail}
+          </div>
+
+          <div class="flex flex-wrap items-center justify-between gap-2 pt-2">
+            <div class="flex items-center gap-2">
+              <button onclick="window.openChatModal('${order.id}')" class="py-2 px-3 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs rounded-xl transition flex items-center gap-1.5">
+                <i data-lucide="message-square" class="w-3.5 h-3.5 text-orange-600"></i>
+                <span>Live Chat</span>
+              </button>
+
+              <button onclick="window.openEditCartModal('${order.id}')" class="py-2 px-3 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs rounded-xl transition flex items-center gap-1.5">
+                <i data-lucide="edit-3" class="w-3.5 h-3.5 text-orange-600"></i>
+                <span>Edit Cart</span>
+              </button>
+            </div>
+
+            <div class="flex items-center gap-2">
+              ${order.status === 'Pending' ? `
+                <button onclick="window.updateOrderStatus('${order.id}', 'Accepted')" class="py-2 px-4 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs rounded-xl shadow-xs transition">Accept</button>
+                <button onclick="window.updateOrderStatus('${order.id}', 'Rejected')" class="py-2 px-3 bg-rose-100 hover:bg-rose-200 text-rose-700 font-bold text-xs rounded-xl transition">Reject</button>
+              ` : ''}
+
+              ${order.status === 'Accepted' ? `
+                <button onclick="window.updateOrderStatus('${order.id}', 'Preparing')" class="py-2 px-4 bg-orange-600 hover:bg-orange-700 text-white font-bold text-xs rounded-xl shadow-xs transition">Start Preparing</button>
+              ` : ''}
+            </div>
+          </div>
+
+          ${riderSelectHTML}
+        `;
+
+        ordersList.appendChild(card);
+      });
+
+      lucide.createIcons();
+    }
+
+    window.toggleAutoReassign = function(val) {
+      if (localDB.shops[currentUser.uid]) {
+        localDB.shops[currentUser.uid].autoReassignEnabled = val;
+        saveLocalDB();
+      }
+    };
+
+    window.updateOrderStatus = function(orderId, newStatus) {
+      if (localDB.orders[orderId]) {
+        localDB.orders[orderId].status = newStatus;
+        saveLocalDB();
+        renderCurrentView();
+      }
+    };
+
+    window.assignRiderToOrder = function(orderId) {
+      const select = document.getElementById(`rider-select-${orderId}`);
+      if (!select) return;
+
+      const rUid = select.value;
+      const riderUser = localDB.users[rUid] || { name: 'David Rider' };
+      const rider = localDB.riders[rUid];
+
+      const order = localDB.orders[orderId];
+      order.riderUid = rUid;
+      order.riderName = riderUser.name;
+      order.deliveryFee = rider.deliveryFee;
+      order.totalCod = order.foodCost + order.deliveryFee;
+      order.status = 'Out for Delivery';
+
+      saveLocalDB();
+      renderCurrentView();
+    };
+
+    window.reassignRider = function(orderId) {
+      const order = localDB.orders[orderId];
+      order.riderUid = null;
+      order.riderName = "Searching...";
+      order.status = 'Preparing';
+      saveLocalDB();
+      renderCurrentView();
+    };
+
+
+    // -------------------------------------------------------------
+    // 9. RIDER DASHBOARD CONTROLLERS
+    // -------------------------------------------------------------
+    function renderRiderView() {
+      const myRiderUid = currentUser.uid;
+      const rider = localDB.riders[myRiderUid] || { isOnline: true, maxRangeKm: 5, deliveryFee: 3.00, unsettledCash: 0 };
+
+      document.getElementById('rider-online-toggle').checked = rider.isOnline;
+      document.getElementById('rider-fee-input').value = rider.deliveryFee.toFixed(2);
+      document.getElementById('rider-radius-slider').value = rider.maxRangeKm;
+      document.getElementById('rider-radius-val').innerText = rider.maxRangeKm + ' km';
+
+      // Unsettled Cash Bar
+      const cash = rider.unsettledCash || 0;
+      document.getElementById('rider-unsettled-amount').innerText = cash.toFixed(2);
+      const pct = Math.min((cash / 50) * 100, 100);
+      
+      const bar = document.getElementById('rider-cash-bar');
+      bar.style.width = `${pct}%`;
+
+      if (cash >= 50) {
+        bar.className = "h-full bg-rose-500 transition-all duration-500";
+        document.getElementById('rider-cash-warning').classList.remove('hidden');
+        rider.isOnline = false; // Auto enforce offline
+      } else {
+        bar.className = "h-full bg-emerald-500 transition-all duration-500";
+        document.getElementById('rider-cash-warning').classList.add('hidden');
+      }
+
+      // Render Deliveries Assigned to Rider
+      const deliveriesList = document.getElementById('rider-orders-list');
+      deliveriesList.innerHTML = '';
+
+      const myDeliveries = Object.values(localDB.orders).filter(o => o.riderUid === myRiderUid || o.riderUid === 'rider_1');
+
+      if (myDeliveries.length === 0) {
+        deliveriesList.innerHTML = `<div class="p-8 text-center bg-white rounded-2xl border border-slate-200 text-slate-400 text-xs">No active deliveries assigned currently.</div>`;
+        return;
+      }
+
+      myDeliveries.forEach(order => {
+        const card = document.createElement('div');
+        card.className = "bg-white rounded-2xl p-6 border border-slate-200 shadow-xs space-y-4";
+
+        card.innerHTML = `
+          <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+            <div>
+              <span class="font-extrabold text-sm text-slate-900">Delivery #${order.id.slice(-4)}</span>
+              <p class="text-xs text-slate-500">Shop: <span class="font-bold text-slate-800">${order.shopName}</span></p>
+            </div>
+
+            <div class="text-right">
+              <span class="text-[10px] font-bold text-slate-400 uppercase">Collect COD Cash</span>
+              <div class="text-lg font-black text-emerald-600">$${order.totalCod.toFixed(2)}</div>
+            </div>
+          </div>
+
+          <div class="space-y-2 text-xs bg-slate-50 p-3 rounded-xl border border-slate-100">
+            <div class="flex items-center gap-2">
+              <i data-lucide="map-pin" class="w-4 h-4 text-orange-600 shrink-0"></i>
+              <span>Dropoff Address: <strong class="text-slate-800">${order.customerAddress || '742 Evergreen Terrace'}</strong></span>
+            </div>
+            <div class="flex items-center gap-2">
+              <i data-lucide="phone" class="w-4 h-4 text-orange-600 shrink-0"></i>
+              <span>Customer Phone: <strong class="text-slate-800">${order.customerPhone}</strong></span>
+            </div>
+          </div>
+
+          <div class="flex items-center justify-between text-xs pt-2">
+            <div class="text-slate-500 font-medium">
+              Food: $${order.foodCost.toFixed(2)} + Fee: $${order.deliveryFee.toFixed(2)}
+            </div>
+
+            ${order.status === 'Out for Delivery' ? `
+              <button onclick="window.markOrderDelivered('${order.id}')" class="py-2.5 px-5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs rounded-xl shadow-md transition flex items-center gap-1.5">
+                <i data-lucide="check" class="w-4 h-4"></i>
+                <span>Mark Delivered & Collect Cash</span>
+              </button>
+            ` : `
+              <span class="px-3 py-1 rounded-full bg-slate-100 text-slate-600 font-bold">${order.status}</span>
+            `}
+          </div>
+        `;
+
+        deliveriesList.appendChild(card);
+      });
+
+      lucide.createIcons();
+    }
+
+    window.toggleRiderStatus = function(online) {
+      if (localDB.riders[currentUser.uid]) {
+        localDB.riders[currentUser.uid].isOnline = online;
+        saveLocalDB();
+      }
+    };
+
+    window.updateRiderSettings = function() {
+      const fee = parseFloat(document.getElementById('rider-fee-input').value) || 3.00;
+      const radius = parseInt(document.getElementById('rider-radius-slider').value) || 5;
+
+      if (localDB.riders[currentUser.uid]) {
+        localDB.riders[currentUser.uid].deliveryFee = fee;
+        localDB.riders[currentUser.uid].maxRangeKm = radius;
+        saveLocalDB();
+      }
+    };
+
+    window.settleRiderCash = function() {
+      if (localDB.riders[currentUser.uid]) {
+        localDB.riders[currentUser.uid].unsettledCash = 0;
+        localDB.riders[currentUser.uid].isOnline = true;
+        saveLocalDB();
+        renderCurrentView();
+      }
+    };
+
+    window.markOrderDelivered = function(orderId) {
+      const order = localDB.orders[orderId];
+      if (order) {
+        order.status = 'Delivered';
+        
+        // Add COD total to rider's unsettled cash
+        if (localDB.riders[currentUser.uid]) {
+          localDB.riders[currentUser.uid].unsettledCash += order.totalCod;
+        }
+
+        saveLocalDB();
+        renderCurrentView();
+      }
+    };
+
+
+    // -------------------------------------------------------------
+    // 10. ADMIN DASHBOARD CONTROLLERS
+    // -------------------------------------------------------------
+    function renderAdminView() {
+      // Metrics
+      const totalOrders = Object.keys(localDB.orders).length;
+      const totalVolume = Object.values(localDB.orders).reduce((sum, o) => sum + o.totalCod, 0);
+      const activeShops = Object.keys(localDB.shops).length;
+      const activeRiders = Object.values(localDB.riders).filter(r => r.isOnline).length;
+
+      document.getElementById('admin-stat-orders').innerText = totalOrders;
+      document.getElementById('admin-stat-volume').innerText = `$${totalVolume.toFixed(2)}`;
+      document.getElementById('admin-stat-shops').innerText = activeShops;
+      document.getElementById('admin-stat-riders').innerText = activeRiders;
+
+      // Users Table
+      const usersTable = document.getElementById('admin-users-table-body');
+      usersTable.innerHTML = '';
+
+      Object.values(localDB.users).forEach(u => {
+        const row = document.createElement('tr');
+        row.className = "hover:bg-slate-50 transition";
+        row.innerHTML = `
+          <td class="p-3.5 font-bold text-slate-900">${u.name}</td>
+          <td class="p-3.5 uppercase font-bold text-[10px] text-orange-600">${u.role}</td>
+          <td class="p-3.5 text-slate-600">${u.phone || '-'}</td>
+          <td class="p-3.5 text-slate-600">${u.email}</td>
+          <td class="p-3.5">
+            <span class="px-2 py-0.5 rounded-full font-bold text-[10px] ${u.status === 'approved' ? 'bg-emerald-100 text-emerald-700' : 'bg-rose-100 text-rose-700'}">
+              ${u.status}
+            </span>
+          </td>
+          <td class="p-3.5 text-right space-x-1">
+            <button onclick="window.setAdminUserStatus('${u.uid}', 'approved')" class="px-2 py-1 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 font-bold rounded-lg transition">Approve</button>
+            <button onclick="window.setAdminUserStatus('${u.uid}', 'blocked')" class="px-2 py-1 bg-rose-50 hover:bg-rose-100 text-rose-700 font-bold rounded-lg transition">Block</button>
+          </td>
+        `;
+        usersTable.appendChild(row);
+      });
+
+      // City Active Orders Monitor Table
+      const ordersTable = document.getElementById('admin-orders-table-body');
+      ordersTable.innerHTML = '';
+
+      Object.values(localDB.orders).forEach(o => {
+        const row = document.createElement('tr');
+        row.className = "hover:bg-slate-50 transition";
+        row.innerHTML = `
+          <td class="p-3.5 font-bold text-slate-900">#${o.id.slice(-4)}</td>
+          <td class="p-3.5 text-slate-700 font-medium">${o.customerName}</td>
+          <td class="p-3.5 text-slate-700 font-medium">${o.shopName}</td>
+          <td class="p-3.5 text-slate-700 font-medium">${o.riderName || 'Searching'}</td>
+          <td class="p-3.5 font-black text-slate-900">$${o.totalCod.toFixed(2)}</td>
+          <td class="p-3.5">
+            <span class="px-2 py-0.5 rounded-full font-bold text-[10px] bg-orange-100 text-orange-700 uppercase">${o.status}</span>
+          </td>
+          <td class="p-3.5 text-right">
+            <button onclick="window.openChatModal('${o.id}')" class="px-2.5 py-1 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-lg transition flex items-center gap-1 ml-auto">
+              <i data-lucide="search" class="w-3 h-3"></i> Inspect Chat
+            </button>
+          </td>
+        `;
+        ordersTable.appendChild(row);
+      });
+
+      lucide.createIcons();
+    }
+
+    window.setAdminUserStatus = function(uid, status) {
+      if (localDB.users[uid]) {
+        localDB.users[uid].status = status;
+        saveLocalDB();
+        renderCurrentView();
+      }
+    };
+
+
+    // -------------------------------------------------------------
+    // 11. LIVE IN-APP CHAT CONTROLLER
+    // -------------------------------------------------------------
+    window.openChatModal = function(orderId) {
+      activeChatOrderId = orderId;
+      document.getElementById('modal-chat').classList.remove('hidden');
+      renderChatMessages();
+    };
+
+    window.openCustomerChatModal = function() {
+      const activeOrder = Object.values(localDB.orders).find(o => 
+        o.customerUid === currentUser.uid && 
+        ['Pending', 'Accepted', 'Preparing', 'Out for Delivery'].includes(o.status)
+      );
+      if (activeOrder) {
+        window.openChatModal(activeOrder.id);
+      }
+    };
+
+    window.closeChatModal = function() {
+      document.getElementById('modal-chat').classList.add('hidden');
+    };
+
+    function renderChatMessages() {
+      if (!activeChatOrderId) return;
+
+      const msgs = localDB.messages[activeChatOrderId] || [];
+      const container = document.getElementById('chat-messages-container');
+      container.innerHTML = '';
+
+      msgs.forEach(m => {
+        const isMe = m.senderRole === currentUser.role;
+        const msgDiv = document.createElement('div');
+        msgDiv.className = `flex flex-col ${isMe ? 'items-end' : 'items-start'}`;
+
+        msgDiv.innerHTML = `
+          <div class="text-[10px] text-slate-400 font-bold mb-0.5">${m.senderName} (${m.senderRole})</div>
+          <div class="py-2 px-3.5 rounded-2xl max-w-xs text-xs font-medium shadow-xs ${isMe ? 'bg-orange-600 text-white rounded-br-none' : 'bg-white border border-slate-200 text-slate-800 rounded-bl-none'}">
+            ${m.text}
+          </div>
+        `;
+        container.appendChild(msgDiv);
+      });
+
+      container.scrollTop = container.scrollHeight;
+    }
+
+    window.sendChatMessage = function(e) {
+      e.preventDefault();
+      const input = document.getElementById('chat-input');
+      const text = input.value.trim();
+      if (!text || !activeChatOrderId) return;
+
+      if (!localDB.messages[activeChatOrderId]) {
+        localDB.messages[activeChatOrderId] = [];
+      }
+
+      localDB.messages[activeChatOrderId].push({
+        msgId: 'msg_' + Date.now(),
+        senderRole: currentUser.role,
+        senderName: currentUser.name || currentUser.email,
+        text,
+        timestamp: Date.now()
+      });
+
+      saveLocalDB();
+      input.value = '';
+      renderChatMessages();
+    };
+
+
+    // -------------------------------------------------------------
+    // 12. CART MODIFIER CONTROLLER (Shopkeeper Edit Cart)
+    // -------------------------------------------------------------
+    let editingOrderId = null;
+
+    window.openEditCartModal = function(orderId) {
+      editingOrderId = orderId;
+      const order = localDB.orders[orderId];
+      if (!order) return;
+
+      const container = document.getElementById('edit-cart-items-container');
+      container.innerHTML = '';
+
+      order.items.forEach(item => {
+        const row = document.createElement('div');
+        row.className = "flex items-center justify-between p-3 bg-slate-50 rounded-xl border border-slate-200 text-xs";
+        row.innerHTML = `
+          <span class="font-bold text-slate-800">${item.name} ($${item.price.toFixed(2)})</span>
+          <div class="flex items-center gap-2">
+            <button onclick="window.modifyOrderCartQty('${item.id}', -1)" class="w-6 h-6 bg-slate-200 font-bold rounded-lg">-</button>
+            <span id="edit-qty-${item.id}" class="font-bold w-4 text-center">${item.qty}</span>
+            <button onclick="window.modifyOrderCartQty('${item.id}', 1)" class="w-6 h-6 bg-orange-600 text-white font-bold rounded-lg">+</button>
+          </div>
+        `;
+        container.appendChild(row);
+      });
+
+      window.updateEditCartNewTotalDisplay();
+      document.getElementById('modal-edit-cart').classList.remove('hidden');
+    };
+
+    window.closeEditCartModal = function() {
+      document.getElementById('modal-edit-cart').classList.add('hidden');
+    };
+
+    window.modifyOrderCartQty = function(itemId, delta) {
+      const order = localDB.orders[editingOrderId];
+      const item = order.items.find(i => i.id === itemId);
+      if (item) {
+        item.qty += delta;
+        if (item.qty < 0) item.qty = 0;
+        document.getElementById(`edit-qty-${itemId}`).innerText = item.qty;
+        window.updateEditCartNewTotalDisplay();
+      }
+    };
+
+    window.updateEditCartNewTotalDisplay = function() {
+      const order = localDB.orders[editingOrderId];
+      const newFoodCost = order.items.reduce((sum, i) => sum + (i.price * i.qty), 0);
+      const newTotalCod = newFoodCost + order.deliveryFee;
+
+      document.getElementById('edit-cart-new-total').innerText = `$${newTotalCod.toFixed(2)}`;
+    };
+
+    window.saveCartModifications = function() {
+      const order = localDB.orders[editingOrderId];
+      order.items = order.items.filter(i => i.qty > 0);
+      order.foodCost = order.items.reduce((sum, i) => sum + (i.price * i.qty), 0);
+      order.totalCod = order.foodCost + order.deliveryFee;
+
+      // Add system message to chat
+      if (!localDB.messages[editingOrderId]) localDB.messages[editingOrderId] = [];
+      localDB.messages[editingOrderId].push({
+        msgId: 'msg_' + Date.now(),
+        senderRole: 'shopkeeper',
+        senderName: order.shopName,
+        text: `🛒 Order items updated. New COD total: $${order.totalCod.toFixed(2)}.`,
+        timestamp: Date.now()
+      });
+
+      saveLocalDB();
+      window.closeEditCartModal();
+      renderCurrentView();
+    };
+
+
+    // -------------------------------------------------------------
+    // 13. MENU MANAGER CONTROLLER (Shopkeeper Add Items)
+    // -------------------------------------------------------------
+    window.openMenuManagerModal = function() {
+      const shop = localDB.shops[currentUser.uid] || localDB.shops['shop_1'];
+      const list = document.getElementById('menu-manager-items-list');
+      list.innerHTML = '';
+
+      (shop.menuItems || []).forEach(item => {
+        const row = document.createElement('div');
+        row.className = "flex items-center justify-between p-3 bg-white rounded-xl border border-slate-200 text-xs";
+        row.innerHTML = `
+          <div>
+            <span class="font-bold text-slate-900">${item.name}</span>
+            <span class="text-orange-600 font-extrabold ml-2">$${item.price.toFixed(2)}</span>
+          </div>
+          <button onclick="window.deleteMenuItem('${item.id}')" class="text-rose-600 hover:text-rose-800 font-bold">Remove</button>
+        `;
+        list.appendChild(row);
+      });
+
+      document.getElementById('modal-menu-manager').classList.remove('hidden');
+    };
+
+    window.closeMenuManagerModal = function() {
+      document.getElementById('modal-menu-manager').classList.add('hidden');
+    };
+
+    window.handleAddMenuItem = function(e) {
+      e.preventDefault();
+      const name = document.getElementById('menu-add-name').value;
+      const price = parseFloat(document.getElementById('menu-add-price').value);
+      const desc = document.getElementById('menu-add-desc').value;
+
+      let shop = localDB.shops[currentUser.uid];
+      if (!shop) {
+        shop = { shopName: currentUser.name, autoReassignEnabled: true, menuItems: [] };
+        localDB.shops[currentUser.uid] = shop;
+      }
+
+      shop.menuItems.push({
+        id: 'm_' + Date.now(),
+        name,
+        price,
+        description: desc,
+        image: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=300"
+      });
+
+      saveLocalDB();
+      window.openMenuManagerModal();
+    };
+
+    window.deleteMenuItem = function(itemId) {
+      const shop = localDB.shops[currentUser.uid];
+      if (shop) {
+        shop.menuItems = shop.menuItems.filter(i => i.id !== itemId);
+        saveLocalDB();
+        window.openMenuManagerModal();
+      }
+    };
+
+
+    // -------------------------------------------------------------
+    // 14. TIMERS & AUTO-REASSIGNMENT ENGINE
+    // -------------------------------------------------------------
+    function updateActiveTimers() {
+      const activeOrder = Object.values(localDB.orders).find(o => 
+        currentUser && o.customerUid === currentUser.uid && 
+        ['Pending', 'Accepted', 'Preparing', 'Out for Delivery'].includes(o.status)
+      );
+
+      if (activeOrder) {
+        const timerEl = document.getElementById('cust-timer-display');
+        if (timerEl) {
+          const remMs = Math.max(0, activeOrder.timerTarget - Date.now());
+          const mins = Math.floor(remMs / 60000);
+          const secs = Math.floor((remMs % 60000) / 1000);
+          timerEl.innerText = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+        }
+      }
+    }
+
+    function checkAutoReassigns() {
+      // Check for orders 'Pending' for over 3 mins where autoReassign is enabled
+      Object.values(localDB.orders).forEach(o => {
+        if (o.status === 'Pending') {
+          const shop = localDB.shops[o.shopUid];
+          if (shop && shop.autoReassignEnabled !== false) {
+            const elapsed = Date.now() - o.createdAt;
+            if (elapsed > 3 * 60 * 1000) { // 3 mins missed
+              // Auto reassign / alert
+              o.status = 'Auto-Reassigned';
+              saveLocalDB();
+            }
+          }
+        }
+      });
+    }
+
+
+    // -------------------------------------------------------------
+    // 15. FIREBASE CONFIG MODAL CONTROLLER
+    // -------------------------------------------------------------
+    window.openFirebaseConfigModal = function() {
+      const cfg = JSON.parse(localStorage.getItem('quickbite_firebase_cfg')) || firebaseConfig;
+      document.getElementById('cfg-apiKey').value = cfg.apiKey;
+      document.getElementById('cfg-databaseURL').value = cfg.databaseURL;
+      document.getElementById('cfg-projectId').value = cfg.projectId;
+      document.getElementById('modal-firebase-config').classList.remove('hidden');
+    };
+
+    window.closeFirebaseConfigModal = function() {
+      document.getElementById('modal-firebase-config').classList.add('hidden');
+    };
+
+    window.saveFirebaseConfig = function() {
+      const newCfg = {
+        apiKey: document.getElementById('cfg-apiKey').value,
+        databaseURL: document.getElementById('cfg-databaseURL').value,
+        projectId: document.getElementById('cfg-projectId').value,
+        authDomain: `${document.getElementById('cfg-projectId').value}.firebaseapp.com`,
+        storageBucket: `${document.getElementById('cfg-projectId').value}.appspot.com`
+      };
+
+      localStorage.setItem('quickbite_firebase_cfg', JSON.stringify(newCfg));
+      window.closeFirebaseConfigModal();
+      initFirebaseEngine();
+    };
+
+  </script>
 
 </body>
 </html>
