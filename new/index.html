@@ -52,7 +52,7 @@
             color: #01411C;
         }
 
-        /* --- Complete Google Bar Hide without translation crash --- */
+        /* --- Complete Google Translate Bar Hide --- */
         .goog-te-banner-frame,
         iframe.goog-te-banner-frame,
         .goog-te-banner,
@@ -71,6 +71,29 @@
         .goog-text-highlight {
             background-color: transparent !important;
             box-shadow: none !important;
+        }
+
+        /* Image-based Language Button Styling */
+        .lang-btn-en {
+            background-color: #f0fdf4;
+            border: 1.5px solid #d4af37;
+            color: #01411c;
+            border-radius: 12px;
+            font-weight: 700;
+        }
+        .lang-btn-en:hover {
+            background-color: #e6f9ed;
+        }
+
+        .lang-btn-ur {
+            background-color: #01411c;
+            border: 1.5px solid #d4af37;
+            color: #ffffff;
+            border-radius: 12px;
+            font-weight: 700;
+        }
+        .lang-btn-ur:hover {
+            background-color: #002f13;
         }
     </style>
 </head>
@@ -121,13 +144,15 @@
                     <a href="contact.html" class="px-3 py-2 text-gray-700 hover:text-pakGreen hover:bg-emerald-50 rounded-md transition">Contact</a>
                 </nav>
 
-                <!-- Language Switcher Buttons (Desktop) -->
-                <div class="hidden sm:flex items-center space-x-1 bg-gray-100 p-1 rounded-lg border border-gray-300">
-                    <button onclick="translatePage('en')" class="px-3 py-1.5 text-xs font-bold rounded-md transition text-gray-700 hover:bg-white hover:shadow-sm focus:bg-pakGreen focus:text-white">
-                        <i class="fa-solid fa-language mr-1"></i> English
+                <!-- Language Switcher Buttons (Exact Match to Design) -->
+                <div class="hidden sm:flex items-center space-x-2">
+                    <button onclick="translatePage('en')" class="lang-btn-en px-4 py-2 text-sm flex items-center gap-2 shadow-sm transition">
+                        <i class="fa-solid fa-globe text-pakGold text-base"></i>
+                        <span>English</span>
                     </button>
-                    <button onclick="translatePage('ur')" class="px-3 py-1.5 text-xs font-bold rounded-md transition text-gray-700 hover:bg-white hover:shadow-sm focus:bg-pakGreen focus:text-white">
-                        اردو
+                    <button onclick="translatePage('ur')" class="lang-btn-ur px-4 py-2 text-sm flex items-center gap-2 shadow-sm transition">
+                        <i class="fa-solid fa-language text-pakGold text-base"></i>
+                        <span>اردو</span>
                     </button>
                 </div>
 
@@ -151,13 +176,13 @@
             <a href="about.html" class="block w-full text-left px-3 py-2 rounded-md text-base font-semibold text-gray-700 hover:bg-emerald-50"><i class="fa-solid fa-circle-info w-6 text-pakGreen"></i> About Us</a>
             <a href="contact.html" class="block w-full text-left px-3 py-2 rounded-md text-base font-semibold text-gray-700 hover:bg-emerald-50"><i class="fa-solid fa-envelope w-6 text-pakGreen"></i> Contact Us</a>
             
-            <!-- Mobile Language Switcher -->
+            <!-- Mobile Language Switcher (Matching Design) -->
             <div class="pt-3 border-t border-gray-200 flex gap-2">
-                <button onclick="translatePage('en')" class="flex-1 py-2 text-xs font-bold bg-gray-100 hover:bg-pakGreen hover:text-white rounded-md text-center transition">
-                    English
+                <button onclick="translatePage('en')" class="lang-btn-en flex-1 py-2 text-xs flex items-center justify-center gap-1.5 transition">
+                    <i class="fa-solid fa-globe text-pakGold"></i> English
                 </button>
-                <button onclick="translatePage('ur')" class="flex-1 py-2 text-xs font-bold bg-gray-100 hover:bg-pakGreen hover:text-white rounded-md text-center transition">
-                    اردو
+                <button onclick="translatePage('ur')" class="lang-btn-ur flex-1 py-2 text-xs flex items-center justify-center gap-1.5 transition">
+                    <i class="fa-solid fa-language text-pakGold"></i> اردو
                 </button>
             </div>
         </div>
@@ -405,9 +430,8 @@
         </div>
     </footer>
 
-    <!-- Robust Google Translate Logic -->
+    <!-- Google Translate Engine Script -->
     <script type="text/javascript">
-        // 1. Clear saved auto-translate cookies to prevent auto-translation loops on mobile
         function cleargoogtransCookie() {
             document.cookie = "googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
             document.cookie = "googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; domain=" + location.hostname + "; path=/;";
@@ -421,7 +445,6 @@
             }, 'google_translate_element');
         }
 
-        // 2. Cross-device reliable translation handler
         function translatePage(langCode) {
             if (langCode === 'en') {
                 cleargoogtransCookie();
@@ -446,7 +469,7 @@
     </script>
     <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 
-    <!-- Interactive CNIC Checker & UI Scripts -->
+    <!-- CNIC & UI Mobile Script -->
     <script>
         function toggleMobileMenu() {
             document.getElementById('mobile-menu').classList.toggle('hidden');
