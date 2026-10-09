@@ -1,6 +1,0 @@
-{
-  "name": "QuickBite Express",
-  "description": "Hyper-local Food Delivery Platform featuring Cash on Delivery, dynamic rider pricing, merchant auto-reassignment, live synchronized timers, and in-app chat.",
-  "requestFramePermissions": [],
-  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
-}
