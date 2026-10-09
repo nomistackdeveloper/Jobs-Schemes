@@ -32,7 +32,14 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
-        body { font-family: 'Inter', sans-serif; background-color: #F4F6F8; color: #1f2937; }
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: #F4F6F8; 
+            color: #1f2937; 
+            top: 0px !important;
+            position: static !important;
+        }
+
         .adsense-placeholder {
             background: repeating-linear-gradient(45deg, #f3f4f6, #f3f4f6 10px, #e5e7eb 10px, #e5e7eb 20px);
             border: 1px dashed #9ca3af;
@@ -44,10 +51,22 @@
             background-color: #D4AF37;
             color: #01411C;
         }
-        /* Hide Google Translate Toolbar Banner */
-        .goog-te-banner-frame { display: none !important; }
-        body { top: 0px !important; }
-        #google_translate_element { display: none; }
+
+        /* --- Hide Google Translate Toolbar & Popups --- */
+        .goog-te-banner-frame,
+        .goog-te-banner,
+        .skiptranslate,
+        iframe.goog-te-banner-frame { 
+            display: none !important; 
+            visibility: hidden !important;
+        }
+        #google_translate_element { 
+            display: none !important; 
+        }
+        .goog-text-highlight {
+            background-color: transparent !important;
+            box-shadow: none !important;
+        }
     </style>
 </head>
 <body class="bg-gray-50 flex flex-col min-h-screen">
@@ -387,7 +406,8 @@
             new google.translate.TranslateElement({
                 pageLanguage: 'en',
                 includedLanguages: 'en,ur',
-                autoDisplay: false
+                autoDisplay: false,
+                layout: google.translate.TranslateElement.InlineLayout.SIMPLE
             }, 'google_translate_element');
         }
 
@@ -401,7 +421,7 @@
     </script>
     <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 
-    <!-- Interactive CNIC Checker Script -->
+    <!-- Interactive CNIC Checker & UI Scripts -->
     <script>
         function toggleMobileMenu() {
             document.getElementById('mobile-menu').classList.toggle('hidden');
